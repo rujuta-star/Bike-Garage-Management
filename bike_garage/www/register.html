@@ -1,0 +1,69 @@
+{% extends "templates/web.html" %}
+{% block title %}Complete Bike Garage registration{% endblock %}
+{% block page_content %}
+<meta name="referrer" content="no-referrer">
+<main class="bg-register-page">
+  <section class="bg-register-card" aria-labelledby="register-title">
+    <a href="/" class="bg-register-brand">Bike Garage</a>
+    <p class="bg-register-eyebrow">Approved garage access</p>
+    <h1 id="register-title">Complete your owner registration</h1>
+    <p class="bg-register-intro">Choose a password to activate your garage workspace. This secure link can be used once and expires after 48 hours.</p>
+    <form id="bg-owner-registration" novalidate>
+      <label for="bg-password">Password</label>
+      <input id="bg-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+      <label for="bg-password-confirm">Confirm password</label>
+      <input id="bg-password-confirm" name="password_confirmation" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+      <button type="submit">Complete registration</button>
+    </form>
+    <p id="bg-registration-status" role="status" aria-live="polite"></p>
+    <a id="bg-login-link" href="/login" hidden>Go to Log in</a>
+  </section>
+</main>
+<style>
+.bg-register-page{min-height:calc(100svh - 60px);display:grid;place-items:center;padding:30px 16px;background:linear-gradient(145deg,#eef3f6,#f8f9fa 58%,#f5edef);font-family:Inter,"Segoe UI",system-ui,sans-serif;color:#17283a}.bg-register-card{width:min(100%,480px);padding:clamp(24px,5vw,40px);border:1px solid #dfe6ec;border-radius:18px;background:#fff;box-shadow:0 20px 55px #142b401a}.bg-register-brand{color:#253b54;font-weight:800;text-decoration:none}.bg-register-eyebrow{margin:26px 0 6px;color:#aa3040;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.bg-register-card h1{margin:0 0 10px;font-size:clamp(25px,5vw,34px);line-height:1.15;letter-spacing:-.03em}.bg-register-intro{color:#5c6d7e;line-height:1.6}.bg-register-card label{display:block;margin:16px 0 6px;font-size:14px;font-weight:700}.bg-register-card input{width:100%;min-height:48px;padding:10px 12px;border:1px solid #cbd6df;border-radius:8px;font:inherit}.bg-register-card input:focus-visible,.bg-register-card button:focus-visible,.bg-register-card a:focus-visible{outline:3px solid #bd3f4b66;outline-offset:3px}.bg-register-card button{width:100%;min-height:48px;margin-top:22px;border:0;border-radius:8px;background:#bd3f4b;color:white;font:inherit;font-weight:750;cursor:pointer}.bg-register-card button:hover{background:#a92e3b}.bg-register-card button:disabled{opacity:.65;cursor:wait}#bg-registration-status{min-height:22px;color:#536579;line-height:1.5}#bg-login-link{display:inline-flex;margin-top:8px;color:#a92e3b;font-weight:750}@media(prefers-reduced-motion:reduce){.bg-register-card *{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+<script>
+(() => {
+  const form = document.getElementById('bg-owner-registration');
+  const status = document.getElementById('bg-registration-status');
+  const button = form.querySelector('button[type="submit"]');
+  const token = new URLSearchParams(window.location.search).get('token') || '';
+  const loginLink = document.getElementById('bg-login-link');
+  if (!token) {
+    status.textContent = 'This registration link is missing or expired. Ask the Bike Garage administrator to send a new link.';
+    form.hidden = true;
+  }
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    const payload = Object.fromEntries(new FormData(form).entries());
+    if (payload.password !== payload.password_confirmation) {
+      status.textContent = 'The password confirmation does not match.';
+      document.getElementById('bg-password-confirm').focus();
+      return;
+    }
+    payload.token = token;
+    button.disabled = true;
+    form.setAttribute('aria-busy', 'true');
+    status.textContent = 'Completing your registration…';
+    try {
+      const response = await fetch('/api/method/bike_garage.bike_garage.api.onboarding.complete_garage_registration', {
+        method: 'POST', credentials: 'same-origin',
+        headers: {'Content-Type': 'application/json', 'X-Frappe-CSRF-Token': '{{ csrf_token }}'},
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error('This link is invalid or expired, or the registration could not be completed. Request a new link from the Bike Garage administrator.');
+      status.textContent = result.message?.message || 'Registration complete. You can now log in.';
+      form.hidden = true;
+      loginLink.hidden = false;
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } catch (error) {
+      status.textContent = error.message || 'Registration could not be completed. Please try again.';
+      button.disabled = false;
+      form.removeAttribute('aria-busy');
+    }
+  });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,528 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Bike Garage Management{% endblock %}
+{% block navbar %}{% endblock %}
+
+{% block page_content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/bike_garage/css/landing.css?v=20261016-1943">
+<div class="bg-lovable-landing no-js" data-theme="light" lang="en">
+<div class="scroll-bar" id="scrollBar" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand" aria-label="Bike Garage Management home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9 9h5l4.5 7.5"/><path d="M12 9 10.5 5.5H8"/><path d="M14 9h3l1.5 2" stroke="#C83E4D"/></svg>
+      </span>
+      <span>Bike Garage<small>Management</small></span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#benefits">Benefits</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      {% if dashboard_route %}<a class="btn btn-outline btn-sm" href="{{ dashboard_route }}">Dashboard</a>{% elif frappe.session.user != "Guest" %}<a class="btn btn-outline btn-sm" href="/me">My account</a>{% endif %}
+      <a class="btn btn-outline btn-sm" data-action="sign-in" href="/login">Sign In</a>
+      <a class="btn btn-primary btn-sm" data-action="request-access" href="#registration-title">Request Access</a>
+    </div>
+    <div class="tools">
+      <label class="sr-only" for="langSel">Language</label>
+      <select id="langSel" class="lang"><option value="en">EN</option><option value="mr">मराठी</option><option value="hi">हिंदी</option></select>
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch to dark theme">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a class="link" href="#features">Features</a>
+    <a class="link" href="#benefits">Benefits</a>
+    <a class="link" href="#how-it-works">How It Works</a>
+    <div class="btns">
+      <a class="btn btn-primary" data-action="request-access" href="#registration-title">Request Access</a>
+      <a class="btn btn-outline" data-action="sign-in" href="/login">Sign In</a>
+      {% if dashboard_route %}<a class="btn btn-outline" href="{{ dashboard_route }}">Dashboard</a>{% elif frappe.session.user != "Guest" %}<a class="btn btn-outline" href="/me">My account</a>{% endif %}
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <video class="hero-bg" autoplay muted loop playsinline preload="auto" poster="/assets/bike_garage/images/lovable-v3-workshop.jpg" aria-hidden="true"><source src="/assets/bike_garage/images/lovable-v3-hero-bg.mp4" type="video/mp4"></video>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="spot" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div>
+        <!-- <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Built for independent motorcycle garages</span> -->
+        <h1 id="hero-title">Run Your Garage.<br><em>Not the Paperwork.</em></h1>
+        <p class="lead">Manage customers, motorcycles, service jobs, spare parts, sales and expenses in one organized workspace built for independent garages.</p>
+        <div class="actions">
+          <a class="btn btn-primary" data-action="request-access" href="#registration-title">Request Access
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-outline" data-action="sign-in" href="/login">Sign In</a>
+          {% if dashboard_route %}<a class="btn btn-outline" href="{{ dashboard_route }}">Dashboard</a>{% elif frappe.session.user != "Guest" %}<a class="btn btn-outline" href="/me">My account</a>{% endif %}
+        </div>
+        <p class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Each garage workspace is reviewed before access is granted.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>Job Cards</span><span>Customers</span><span>Motorcycles</span><span>Inventory</span><span>Sales</span><span>Expenses</span><span>Reports</span><span>Outstanding payments</span><span>Job Cards</span><span>Customers</span><span>Motorcycles</span><span>Inventory</span><span>Sales</span><span>Expenses</span><span>Reports</span><span>Outstanding payments</span></div></div>
+
+  <!-- PRODUCT PREVIEW -->
+  <section class="section preview" aria-labelledby="preview-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">Product preview</span>
+        <h2 id="preview-title">Your whole workshop, at a glance</h2>
+        <p>One dashboard for service jobs, customers, parts, money in and money out.</p>
+      </div>
+      <figure class="app reveal" style="margin:0" aria-label="Illustrative dashboard preview with sample data">
+        <div class="app-bar" aria-hidden="true"><i></i><i></i><i></i><span class="tag">Preview · sample data</span></div>
+        <div class="app-body">
+          <aside class="app-side" aria-hidden="true">
+            <div class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Job Cards</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>Customers</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9 9h5l4.5 7.5"/></svg>Motorcycles</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>Inventory</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2v20l3-2 3 2 3-2 3 2 3-2 1 1V2z"/><path d="M8 8h8M8 12h8"/></svg>Sales</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>Expenses</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>Reports</div>
+          </aside>
+          <div class="app-main">
+            <div class="kpis">
+              <div class="kpi"><div class="l">Active jobs</div><div class="v" data-count="14">14</div><div class="s">4 ready for pickup</div></div>
+              <div class="kpi"><div class="l">Customers</div><div class="v" data-count="386">386</div><div class="s">512 bikes on record</div></div>
+              <div class="kpi"><div class="l">Sales this month</div><div class="v">₹2.48L</div><div class="s">Expenses ₹96K</div></div>
+              <div class="kpi"><div class="l">Outstanding</div><div class="v" style="color:var(--red)">₹38,200</div><div class="s">7 unpaid / partial</div></div>
+            </div>
+            <div class="panels">
+              <div class="panel">
+                <h3>Active service jobs <span>Sample</span></h3>
+                <div class="tbl-scroll"><table>
+                  <thead><tr><th>Job</th><th>Customer / Bike</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td><b>JC-0142</b></td><td>Rahul Patil<br><span class="hc-sub">RE Classic 350</span></td><td><span class="pill amber">In progress</span></td></tr>
+                    <tr><td><b>JC-0141</b></td><td>Sneha Kulkarni<br><span class="hc-sub">Honda Activa 6G</span></td><td><span class="pill green">Ready</span></td></tr>
+                    <tr><td><b>JC-0139</b></td><td>Amit Joshi<br><span class="hc-sub">Bajaj Pulsar NS200</span></td><td><span class="pill navy">Awaiting parts</span></td></tr>
+                    <tr><td><b>JC-0137</b></td><td>Priya Shah<br><span class="hc-sub">TVS Apache RTR 160</span></td><td><span class="pill amber">In progress</span></td></tr>
+                  </tbody>
+                </table></div>
+              </div>
+              <div class="panel">
+                <h3>Spare parts <span>Stock</span></h3>
+                <div class="list-row"><span>Engine oil 10W-30 (1L)</span><span class="pill green">24</span></div>
+                <div class="list-row"><span>Chain sprocket kit</span><span class="pill amber">3 left</span></div>
+                <div class="list-row"><span>Air filter element</span><span class="pill green">17</span></div>
+                <div class="list-row"><span>Clutch cable</span><span class="pill red">Out</span></div>
+              </div>
+            </div>
+            <div class="panels">
+              <div class="panel">
+                <h3>Sales vs expenses <span>Last 6 months · sample</span></h3>
+                <div class="bar-chart" aria-hidden="true">
+                  <div><b style="height:62px"></b><b class="e" style="height:26px"></b><small>May</small></div>
+                  <div><b style="height:70px"></b><b class="e" style="height:29px"></b><small>Jun</small></div>
+                  <div><b style="height:60px"></b><b class="e" style="height:31px"></b><small>Jul</small></div>
+                  <div><b style="height:77px"></b><b class="e" style="height:28px"></b><small>Aug</small></div>
+                  <div><b style="height:72px"></b><b class="e" style="height:32px"></b><small>Sep</small></div>
+                  <div><b style="height:84px"></b><b class="e" style="height:30px"></b><small>Oct</small></div>
+                </div>
+                <div class="legend"><span>Sales</span><span class="e">Expenses</span></div>
+              </div>
+              <div class="panel">
+                <h3>Outstanding payments</h3>
+                <div class="list-row"><span>INV-0918 · Amit Joshi</span><span class="pill red">Unpaid</span></div>
+                <div class="list-row"><span>INV-0912 · Kiran More</span><span class="pill amber">Partial</span></div>
+                <div class="list-row"><span>INV-0907 · Neha Desai</span><span class="pill amber">Partial</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+      <p class="preview-note">Illustrative preview. Names, numbers and records shown are sample data.</p>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">Features</span>
+        <h2 id="features-title">Everything a service garage keeps track of</h2>
+        <p>Purpose-built modules that follow the way your workshop already works.</p>
+      </div>
+      <div class="features">
+        <article class="feature reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M16 3.1a4 4 0 0 1 0 7.8M21 21v-2a4 4 0 0 0-3-3.9"/></svg></div><h3>Customer Management</h3><p>Keep contact details and service history for every customer organized in one place.</p></article>
+        <article class="feature reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9 9h5l4.5 7.5M12 9 10.5 5.5H8"/></svg></div><h3>Motorcycle Management</h3><p>Maintain bike details and registration records linked to their owners.</p></article>
+        <article class="feature reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 14l2 2 4-4"/></svg></div><h3>Job Card Management</h3><p>Track service work from intake to delivery, with clear job status for every bike.</p></article>
+        <article class="feature reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></div><h3>Spare-Parts Inventory</h3><p>Review the parts you carry and see available stock before you quote a job.</p></article>
+        <article class="feature reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 2v20l3-2 3 2 3-2 3 2 3-2 1 1V2z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div><h3>Sales and Billing</h3><p>Organize sales and invoice-related workflows alongside the jobs they belong to.</p></article>
+        <article class="feature reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/></svg></div><h3>Expense Tracking</h3><p>Record and review business expenses so day-to-day costs never get lost.</p></article>
+        <article class="feature reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div><h3>Reports and Analytics</h3><p>Understand revenue, costs and workshop activity through clear reports.</p></article>
+        <article class="feature reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Outstanding Payments</h3><p>Review unpaid and partially paid records and follow up with confidence.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section how" id="how-it-works" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">How it works</span>
+        <h2 id="how-title">Three steps to an organized garage</h2>
+        <p>Getting started is simple. Every workspace is set up for one garage.</p>
+      </div>
+      <ol class="steps">
+        <li class="step reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></div><div class="step-num">STEP 01</div><h3>Request access</h3><p>Tell us about your garage and request your own workspace.</p></li>
+        <li class="step reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div><div class="step-num">STEP 02</div><h3>Get approved</h3><p>Your garage account is reviewed and approved before you can sign in.</p></li>
+        <li class="step reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-2.4z"/></svg></div><div class="step-num">STEP 03</div><h3>Get organized</h3><p>Add customers, bikes, service jobs and business records in one place.</p></li>
+      </ol>
+      <p class="approval" role="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span><strong>Access requires approval.</strong> You can sign in once your garage account has been reviewed and approved.</span></p>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="section" id="benefits" aria-labelledby="benefits-title">
+    <div class="wrap benefits-grid">
+      <div class="intro reveal">
+        <span class="kicker">Benefits</span>
+        <h2 id="benefits-title">Less searching. More time on the bikes.</h2>
+        <p>Bike Garage Management replaces scattered notebooks, spreadsheets and paper slips with one clear record of your workshop.</p>
+      </div>
+      <ul class="benefit-list">
+        <li class="reveal"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><strong>Less scattered paperwork</strong><span>Job details, bills and records live in one workspace.</span></div></li>
+        <li class="reveal"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><strong>Customer and bike history on hand</strong><span>Look up past services when a regular rides in.</span></div></li>
+        <li class="reveal"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><strong>Clear view of ongoing jobs</strong><span>See which bikes are in progress, waiting or ready.</span></div></li>
+        <li class="reveal"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><strong>Organized inventory and expenses</strong><span>Know what's on the shelf and where money is going.</span></div></li>
+        <li class="reveal"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><strong>Convenient business reporting</strong><span>Review sales, costs and activity whenever you need.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div class="cta-box reveal">
+        <h2 id="cta-title">Bring Every Part of Your Garage Together.</h2>
+        <p>Start building a more organized workflow for your garage.</p>
+        <div class="actions">
+          <a class="btn btn-primary" data-action="request-access" href="#registration-title">Request Access</a>
+          <a class="btn btn-ghost-light" data-action="sign-in" href="/login">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section request-access" id="registration-title" aria-labelledby="registration-heading">
+    <div class="wrap request-access-grid">
+      <div class="request-access-intro"><span class="kicker">Get started</span><h2 id="registration-heading">Request garage access</h2><p>Your application and owner account remain pending until an administrator reviews and approves them.</p><p class="request-access-note">No account is created by submitting this form. Approved owners receive a separate registration link.</p></div>
+      <div class="request-access-card"><form id="garage-registration" novalidate>
+        <label>Garage name<input name="garage_name" maxlength="140" required autocomplete="organization"></label>
+        <label>Owner name<input name="owner_name" maxlength="140" required autocomplete="name"></label>
+        <label>Work email<input name="email" type="email" maxlength="254" required autocomplete="email"></label>
+        <label>Phone<input name="phone" type="tel" maxlength="40" required autocomplete="tel"></label>
+        <label class="field-wide">Address<textarea name="address" maxlength="500" rows="2" autocomplete="street-address"></textarea></label>
+        <label>City<input name="city" maxlength="100" autocomplete="address-level2"></label>
+        <label>State<input name="state" maxlength="100" autocomplete="address-level1"></label>
+        <label>PIN code<input name="pin_code" maxlength="20" autocomplete="postal-code"></label>
+        <button class="btn btn-primary field-wide" type="submit">Send request</button><p id="registration-message" class="registration-message field-wide" role="status" aria-live="polite"></p>
+      </form></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="/" class="brand" aria-label="Bike Garage Management home">
+          <span class="brand-mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9 9h5l4.5 7.5"/><path d="M12 9 10.5 5.5H8"/><path d="M14 9h3l1.5 2" stroke="#C83E4D"/></svg></span>
+          <span>Bike Garage<small>Management</small></span>
+        </a>
+        <p>A workspace for independent motorcycle garages to manage customers, bikes, service jobs, parts and business records.</p>
+      </div>
+      <nav aria-label="Footer">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a data-action="sign-in" href="/login">Sign In</a></li>
+          <li><a data-action="request-access" href="#registration-title">Request Access</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="copy">© <span id="year">2026</span> Bike Garage Management. All rights reserved.</div>
+  </div>
+</footer>
+
+</div>
+<script>
+(function () {
+  var page = document.querySelector(".bg-lovable-landing");
+  page.classList.remove("no-js");
+  page.querySelector("#year").textContent = new Date().getFullYear();
+
+  var nav = page.querySelector("#nav");
+  var onScroll = function () { nav.classList.toggle("scrolled", window.scrollY > 8); };
+  window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  var btn = page.querySelector("#menuBtn"), menu = page.querySelector("#mobileMenu");
+  function setMenu(open) {
+    menu.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", open);
+    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  }
+  btn.addEventListener("click", function () { setMenu(!menu.classList.contains("open")); });
+  menu.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { setMenu(false); }); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") setMenu(false); });
+
+  var bar=page.querySelector("#scrollBar");
+  var heroVideo = page.querySelector(".hero-bg");
+  if (heroVideo) {
+    var hero = page.querySelector(".hero");
+    var startHeroVideo = function () {
+      heroVideo.muted = true;
+      heroVideo.play().then(function () {
+        hero.classList.remove("video-unavailable");
+      }).catch(function () {
+        hero.classList.add("video-unavailable");
+      });
+    };
+    heroVideo.addEventListener("canplay", function () {
+      if (heroVideo.paused) startHeroVideo();
+    });
+    heroVideo.addEventListener("error", function () {
+      hero.classList.add("video-unavailable");
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden && heroVideo.paused) startHeroVideo();
+    });
+    page.addEventListener("pointerdown", function () {
+      if (heroVideo.paused) startHeroVideo();
+    }, { once: true, passive: true });
+    startHeroVideo();
+  }
+  window.addEventListener("scroll",function(){var h=document.documentElement;bar.style.transform="scaleX("+(h.scrollTop/(h.scrollHeight-h.clientHeight||1))+")";},{passive:true});
+  if("IntersectionObserver" in window){
+    var app=page.querySelector(".app");
+    if(app&&matchMedia("(hover:hover)").matches){
+      app.addEventListener("mousemove",function(e){var r=app.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;app.style.transform="perspective(1400px) rotateY("+x*4+"deg) rotateX("+(-y*4)+"deg)";});
+      app.addEventListener("mouseleave",function(){app.style.transform="";});
+    }
+    var cio=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;cio.unobserve(x.target);var el=x.target,t=+el.dataset.count,s=performance.now();(function f(n){var p=Math.min((n-s)/1200,1);el.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f);})(s);});});
+    page.querySelectorAll("[data-count]").forEach(function(el){cio.observe(el);});
+  }
+  /* ===== Theme toggle ===== */
+  var root = page, themeBtn = page.querySelector("#themeBtn");
+  function setTheme(t) {
+    root.setAttribute("data-theme", t);
+    themeBtn.setAttribute("aria-label", t === "dark" ? "Switch to light theme" : "Switch to dark theme");
+    try { localStorage.setItem("bg-theme", t); } catch (e) {}
+  }
+  var savedT = null; try { savedT = localStorage.getItem("bg-theme"); } catch (e) {}
+  setTheme(savedT || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  themeBtn.addEventListener("click", function () { setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark"); });
+
+  /* ===== Language: English / मराठी / हिंदी. Format: "English": ["Marathi", "Hindi"] ===== */
+  var T = {
+    "Skip to content": ["मुख्य मजकुराकडे जा", "मुख्य सामग्री पर जाएँ"],
+    "Management": ["व्यवस्थापन", "प्रबंधन"],
+    "Features": ["वैशिष्ट्ये", "विशेषताएँ"],
+    "Benefits": ["फायदे", "फ़ायदे"],
+    "How It Works": ["कसे चालते", "यह कैसे काम करता है"],
+    "Sign In": ["साइन इन", "साइन इन"],
+    "Dashboard": ["डॅशबोर्ड", "डैशबोर्ड"],
+    "Request Access": ["प्रवेशाची विनंती करा", "एक्सेस का अनुरोध करें"],
+    "Built for independent motorcycle garages": ["स्वतंत्र मोटरसायकल गॅरेजसाठी बनवलेले", "स्वतंत्र मोटरसाइकिल गैराज के लिए बनाया गया"],
+    "Run Your Garage.": ["तुमचे गॅरेज चालवा.", "अपना गैराज चलाइए."],
+    "Not the Paperwork.": ["कागदपत्रे नव्हे.", "कागज़ी काम नहीं."],
+    "Manage customers, motorcycles, service jobs, spare parts, sales and expenses in one organized workspace built for independent garages.": ["ग्राहक, मोटरसायकली, सर्व्हिसची कामे, स्पेअर पार्ट्स, विक्री आणि खर्च — सर्व काही स्वतंत्र गॅरेजसाठी बनवलेल्या एकाच व्यवस्थित वर्कस्पेसमध्ये सांभाळा.", "ग्राहक, मोटरसाइकिलें, सर्विस जॉब, स्पेयर पार्ट्स, बिक्री और खर्च — सब कुछ स्वतंत्र गैराज के लिए बने एक व्यवस्थित वर्कस्पेस में संभालें."],
+    "Each garage workspace is reviewed before access is granted.": ["प्रवेश देण्यापूर्वी प्रत्येक गॅरेज वर्कस्पेस तपासले जाते.", "एक्सेस देने से पहले हर गैराज वर्कस्पेस की जाँच की जाती है."],
+    "Job card · sample": ["जॉब कार्ड · नमुना", "जॉब कार्ड · नमूना"],
+    "JC-0142 · Full service": ["JC-0142 · पूर्ण सर्व्हिस", "JC-0142 · फुल सर्विस"],
+    "In progress": ["काम सुरू", "काम जारी"],
+    "Spare part · sample": ["स्पेअर पार्ट · नमुना", "स्पेयर पार्ट · नमूना"],
+    "Brake pads (front)": ["ब्रेक पॅड (पुढचे)", "ब्रेक पैड (आगे के)"],
+    "12 in stock": ["स्टॉकमध्ये १२", "स्टॉक में 12"],
+    "Available": ["उपलब्ध", "उपलब्ध"],
+    "Product preview": ["उत्पादनाची झलक", "प्रोडक्ट की झलक"],
+    "Your whole workshop, at a glance": ["तुमची संपूर्ण वर्कशॉप, एका नजरेत", "आपकी पूरी वर्कशॉप, एक नज़र में"],
+    "One dashboard for service jobs, customers, parts, money in and money out.": ["सर्व्हिसची कामे, ग्राहक, पार्ट्स, येणारे आणि जाणारे पैसे — सर्वांसाठी एकच डॅशबोर्ड.", "सर्विस जॉब, ग्राहक, पार्ट्स, आने वाला और जाने वाला पैसा — सबके लिए एक ही डैशबोर्ड."],
+    "Preview · sample data": ["झलक · नमुना माहिती", "झलक · नमूना डेटा"],
+    "Dashboard": ["डॅशबोर्ड", "डैशबोर्ड"],
+    "Job Cards": ["जॉब कार्ड्स", "जॉब कार्ड"],
+    "Customers": ["ग्राहक", "ग्राहक"],
+    "Motorcycles": ["मोटरसायकली", "मोटरसाइकिलें"],
+    "Inventory": ["इन्व्हेंटरी", "इन्वेंटरी"],
+    "Sales": ["विक्री", "बिक्री"],
+    "Expenses": ["खर्च", "खर्च"],
+    "Reports": ["अहवाल", "रिपोर्ट"],
+    "Active jobs": ["चालू कामे", "चालू जॉब"],
+    "4 ready for pickup": ["४ नेण्यासाठी तयार", "4 ले जाने के लिए तैयार"],
+    "512 bikes on record": ["५१२ गाड्यांची नोंद", "512 बाइक दर्ज"],
+    "Sales this month": ["या महिन्याची विक्री", "इस महीने की बिक्री"],
+    "Expenses ₹96K": ["खर्च ₹96K", "खर्च ₹96K"],
+    "Outstanding": ["थकबाकी", "बकाया"],
+    "7 unpaid / partial": ["७ न भरलेले / अंशतः", "7 अवैतनिक / आंशिक"],
+    "Active service jobs": ["चालू सर्व्हिस कामे", "चालू सर्विस जॉब"],
+    "Sample": ["नमुना", "नमूना"],
+    "Job": ["काम", "जॉब"],
+    "Customer / Bike": ["ग्राहक / गाडी", "ग्राहक / बाइक"],
+    "Status": ["स्थिती", "स्थिति"],
+    "Ready": ["तयार", "तैयार"],
+    "Awaiting parts": ["पार्ट्सची प्रतीक्षा", "पार्ट्स का इंतज़ार"],
+    "Spare parts": ["स्पेअर पार्ट्स", "स्पेयर पार्ट्स"],
+    "Stock": ["स्टॉक", "स्टॉक"],
+    "Engine oil 10W-30 (1L)": ["इंजिन ऑइल 10W-30 (1L)", "इंजन ऑयल 10W-30 (1L)"],
+    "Chain sprocket kit": ["चेन स्प्रॉकेट किट", "चेन स्प्रोकेट किट"],
+    "3 left": ["३ शिल्लक", "3 बचे"],
+    "Air filter element": ["एअर फिल्टर", "एयर फ़िल्टर"],
+    "Clutch cable": ["क्लच केबल", "क्लच केबल"],
+    "Out": ["संपले", "खत्म"],
+    "Sales vs expenses": ["विक्री विरुद्ध खर्च", "बिक्री बनाम खर्च"],
+    "Last 6 months · sample": ["मागील ६ महिने · नमुना", "पिछले 6 महीने · नमूना"],
+    "May": ["मे", "मई"], "Jun": ["जून", "जून"], "Jul": ["जुलै", "जुलाई"], "Aug": ["ऑग", "अग"], "Sep": ["सप्टें", "सित"], "Oct": ["ऑक्टो", "अक्टू"],
+    "Outstanding payments": ["थकीत देयके", "बकाया भुगतान"],
+    "Unpaid": ["न भरलेले", "अवैतनिक"],
+    "Partial": ["अंशतः", "आंशिक"],
+    "Illustrative preview. Names, numbers and records shown are sample data.": ["ही केवळ उदाहरणादाखल झलक आहे. दाखवलेली नावे, आकडे आणि नोंदी नमुना माहिती आहेत.", "यह केवल उदाहरण के लिए झलक है. दिखाए गए नाम, आँकड़े और रिकॉर्ड नमूना डेटा हैं."],
+    "Everything a service garage keeps track of": ["सर्व्हिस गॅरेजला लागणारी प्रत्येक नोंद", "सर्विस गैराज का हर हिसाब-किताब"],
+    "Purpose-built modules that follow the way your workshop already works.": ["तुमची वर्कशॉप जशी चालते, त्याच पद्धतीने काम करणारी खास मॉड्यूल्स.", "खास मॉड्यूल जो आपकी वर्कशॉप के काम करने के तरीके के अनुसार चलते हैं."],
+    "Customer Management": ["ग्राहक व्यवस्थापन", "ग्राहक प्रबंधन"],
+    "Keep contact details and service history for every customer organized in one place.": ["प्रत्येक ग्राहकाचे संपर्क तपशील आणि सर्व्हिस इतिहास एकाच ठिकाणी व्यवस्थित ठेवा.", "हर ग्राहक की संपर्क जानकारी और सर्विस इतिहास एक ही जगह व्यवस्थित रखें."],
+    "Motorcycle Management": ["मोटरसायकल व्यवस्थापन", "मोटरसाइकिल प्रबंधन"],
+    "Maintain bike details and registration records linked to their owners.": ["गाडीचे तपशील आणि नोंदणी क्रमांक त्यांच्या मालकांशी जोडून ठेवा.", "बाइक की जानकारी और रजिस्ट्रेशन रिकॉर्ड उनके मालिकों से जोड़कर रखें."],
+    "Job Card Management": ["जॉब कार्ड व्यवस्थापन", "जॉब कार्ड प्रबंधन"],
+    "Track service work from intake to delivery, with clear job status for every bike.": ["गाडी आल्यापासून डिलिव्हरीपर्यंत प्रत्येक कामाची स्पष्ट स्थिती पाहा.", "बाइक आने से डिलीवरी तक, हर बाइक के काम की साफ़ स्थिति देखें."],
+    "Spare-Parts Inventory": ["स्पेअर पार्ट्स इन्व्हेंटरी", "स्पेयर पार्ट्स इन्वेंटरी"],
+    "Review the parts you carry and see available stock before you quote a job.": ["कामाचा अंदाज देण्यापूर्वी तुमच्याकडील पार्ट्स आणि उपलब्ध स्टॉक पाहा.", "जॉब का अनुमान देने से पहले अपने पार्ट्स और उपलब्ध स्टॉक देखें."],
+    "Sales and Billing": ["विक्री आणि बिलिंग", "बिक्री और बिलिंग"],
+    "Organize sales and invoice-related workflows alongside the jobs they belong to.": ["विक्री आणि बिलांची कामे संबंधित जॉबसोबतच व्यवस्थित ठेवा.", "बिक्री और बिल से जुड़े काम उनके जॉब के साथ ही व्यवस्थित रखें."],
+    "Expense Tracking": ["खर्चाचा हिशोब", "खर्च का हिसाब"],
+    "Record and review business expenses so day-to-day costs never get lost.": ["व्यवसायाचे खर्च नोंदवा आणि तपासा, म्हणजे रोजचा कोणताही खर्च सुटणार नाही.", "कारोबार के खर्च दर्ज करें और देखें, ताकि रोज़ का कोई खर्च न छूटे."],
+    "Reports and Analytics": ["अहवाल आणि विश्लेषण", "रिपोर्ट और विश्लेषण"],
+    "Understand revenue, costs and workshop activity through clear reports.": ["स्पष्ट अहवालांमधून उत्पन्न, खर्च आणि वर्कशॉपचे काम समजून घ्या.", "साफ़ रिपोर्ट से कमाई, खर्च और वर्कशॉप की गतिविधि समझें."],
+    "Review unpaid and partially paid records and follow up with confidence.": ["न भरलेल्या आणि अंशतः भरलेल्या नोंदी पाहा आणि खात्रीने पाठपुरावा करा.", "अवैतनिक और आंशिक भुगतान वाले रिकॉर्ड देखें और भरोसे से फ़ॉलो-अप करें."],
+    "How it works": ["कसे चालते", "यह कैसे काम करता है"],
+    "Three steps to an organized garage": ["व्यवस्थित गॅरेजसाठी तीन पायऱ्या", "व्यवस्थित गैराज के तीन कदम"],
+    "Getting started is simple. Every workspace is set up for one garage.": ["सुरुवात करणे सोपे आहे. प्रत्येक वर्कस्पेस एका गॅरेजसाठी तयार केले जाते.", "शुरुआत करना आसान है. हर वर्कस्पेस एक गैराज के लिए बनाया जाता है."],
+    "STEP 01": ["पायरी ०१", "कदम 01"], "STEP 02": ["पायरी ०२", "कदम 02"], "STEP 03": ["पायरी ०३", "कदम 03"],
+    "Request access": ["प्रवेशाची विनंती करा", "एक्सेस का अनुरोध करें"],
+    "Tell us about your garage and request your own workspace.": ["तुमच्या गॅरेजबद्दल सांगा आणि तुमचे स्वतःचे वर्कस्पेस मागवा.", "अपने गैराज के बारे में बताएँ और अपना वर्कस्पेस माँगें."],
+    "Get approved": ["मंजुरी मिळवा", "मंज़ूरी पाएँ"],
+    "Your garage account is reviewed and approved before you can sign in.": ["साइन इन करण्यापूर्वी तुमचे गॅरेज खाते तपासून मंजूर केले जाते.", "साइन इन से पहले आपके गैराज खाते की जाँच करके मंज़ूरी दी जाती है."],
+    "Get organized": ["व्यवस्थित व्हा", "व्यवस्थित हो जाइए"],
+    "Add customers, bikes, service jobs and business records in one place.": ["ग्राहक, गाड्या, सर्व्हिसची कामे आणि व्यवसायाच्या नोंदी एकाच ठिकाणी जोडा.", "ग्राहक, बाइक, सर्विस जॉब और कारोबार के रिकॉर्ड एक ही जगह जोड़ें."],
+    "Access requires approval.": ["प्रवेशासाठी मंजुरी आवश्यक आहे.", "एक्सेस के लिए मंज़ूरी ज़रूरी है."],
+    "You can sign in once your garage account has been reviewed and approved.": ["तुमचे गॅरेज खाते तपासून मंजूर झाल्यावर तुम्ही साइन इन करू शकता.", "गैराज खाते की जाँच और मंज़ूरी के बाद आप साइन इन कर सकते हैं."],
+    "Less searching. More time on the bikes.": ["कमी शोधाशोध. गाड्यांवर जास्त वेळ.", "कम खोजबीन. बाइक पर ज़्यादा समय."],
+    "Bike Garage Management replaces scattered notebooks, spreadsheets and paper slips with one clear record of your workshop.": ["विखुरलेल्या वह्या, स्प्रेडशीट आणि कागदी चिठ्ठ्यांऐवजी Bike Garage Management तुमच्या वर्कशॉपची एकच स्पष्ट नोंद ठेवते.", "बिखरी कॉपियों, स्प्रेडशीट और कागज़ की पर्चियों की जगह Bike Garage Management आपकी वर्कशॉप का एक साफ़ रिकॉर्ड रखता है."],
+    "Less scattered paperwork": ["विखुरलेली कागदपत्रे कमी", "बिखरा कागज़ी काम कम"],
+    "Job details, bills and records live in one workspace.": ["कामाचे तपशील, बिले आणि नोंदी एकाच वर्कस्पेसमध्ये.", "जॉब की जानकारी, बिल और रिकॉर्ड एक ही वर्कस्पेस में."],
+    "Customer and bike history on hand": ["ग्राहक आणि गाडीचा इतिहास हाताशी", "ग्राहक और बाइक का इतिहास हाथ में"],
+    "Look up past services when a regular rides in.": ["नेहमीचा ग्राहक आल्यावर मागील सर्व्हिस लगेच पाहा.", "नियमित ग्राहक आने पर पिछली सर्विस तुरंत देखें."],
+    "Clear view of ongoing jobs": ["चालू कामांचे स्पष्ट चित्र", "चालू जॉब की साफ़ तस्वीर"],
+    "See which bikes are in progress, waiting or ready.": ["कोणत्या गाड्यांचे काम सुरू आहे, प्रतीक्षेत आहे किंवा तयार आहे ते पाहा.", "देखें कौन-सी बाइक पर काम जारी है, इंतज़ार में है या तैयार है."],
+    "Organized inventory and expenses": ["व्यवस्थित इन्व्हेंटरी आणि खर्च", "व्यवस्थित इन्वेंटरी और खर्च"],
+    "Know what's on the shelf and where money is going.": ["शेल्फवर काय आहे आणि पैसा कुठे जातो ते जाणून घ्या.", "जानिए शेल्फ़ पर क्या है और पैसा कहाँ जा रहा है."],
+    "Convenient business reporting": ["सोयीस्कर व्यवसाय अहवाल", "आसान कारोबारी रिपोर्ट"],
+    "Review sales, costs and activity whenever you need.": ["हवे तेव्हा विक्री, खर्च आणि कामकाज पाहा.", "जब चाहें बिक्री, खर्च और गतिविधि देखें."],
+    "Bring Every Part of Your Garage Together.": ["तुमच्या गॅरेजचे प्रत्येक काम एकत्र आणा.", "अपने गैराज का हर हिस्सा एक साथ लाइए."],
+    "Start building a more organized workflow for your garage.": ["तुमच्या गॅरेजसाठी अधिक व्यवस्थित कामकाज सुरू करा.", "अपने गैराज के लिए ज़्यादा व्यवस्थित कामकाज शुरू करें."],
+    "A workspace for independent motorcycle garages to manage customers, bikes, service jobs, parts and business records.": ["स्वतंत्र मोटरसायकल गॅरेजसाठी ग्राहक, गाड्या, सर्व्हिसची कामे, पार्ट्स आणि व्यवसायाच्या नोंदी सांभाळण्याचे वर्कस्पेस.", "स्वतंत्र मोटरसाइकिल गैराज के लिए ग्राहक, बाइक, सर्विस जॉब, पार्ट्स और कारोबारी रिकॉर्ड संभालने का वर्कस्पेस."],
+    "Explore": ["पाहा", "देखें"],
+    "Bike Garage Management. All rights reserved.": ["Bike Garage Management. सर्व हक्क राखीव.", "Bike Garage Management. सर्वाधिकार सुरक्षित."]
+  };
+  var IDX = { mr: 0, hi: 1 }, nodes = [];
+  (function walk(n) {
+    for (var c = n.firstChild; c; c = c.nextSibling) {
+      if (c.nodeType === 3) { var k = c.nodeValue.trim(); if (T[k]) nodes.push({ n: c, k: k, raw: c.nodeValue }); }
+      else if (c.nodeType === 1 && !/^(SCRIPT|STYLE|SELECT)$/.test(c.tagName)) walk(c);
+    }
+  })(page);
+  var langSel = page.querySelector("#langSel");
+  function setLang(l, animate) {
+    nodes.forEach(function (o) {
+      var t = l === "en" ? o.k : T[o.k][IDX[l]];
+      o.n.nodeValue = o.raw.replace(o.k, t);
+    });
+    root.setAttribute("lang", l);
+    langSel.value = l;
+    try { localStorage.setItem("bg-lang", l); } catch (e) {}
+    if (animate) { page.classList.remove("lang-fade"); void page.offsetWidth; page.classList.add("lang-fade"); }
+  }
+  var savedL = "en"; try { savedL = localStorage.getItem("bg-lang") || "en"; } catch (e) {}
+  if (!IDX[savedL] && savedL !== "en") savedL = "en";
+  setLang(savedL, false);
+  langSel.addEventListener("change", function () { setLang(langSel.value, true); });
+
+  /* ===== Hero spotlight follows the cursor ===== */
+  var hero = page.querySelector(".hero");
+  if (hero && matchMedia("(hover:hover)").matches) {
+    hero.addEventListener("mousemove", function (e) {
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      hero.style.setProperty("--my", (e.clientY - r.top) + "px");
+    });
+  }
+
+  var els = page.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) {
+    els.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    els.forEach(function (el) { io.observe(el); });
+  }
+})();
+</script>
+<script>
+(function () {
+  var page = document.querySelector(".bg-lovable-landing");
+  var form = page && page.querySelector("#garage-registration");
+  var message = page && page.querySelector("#registration-message");
+  if (!form || !message) return;
+  var button = form.querySelector('button[type="submit"]');
+  var csrfToken = '{{ csrf_token }}';
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    if (button.disabled || !form.reportValidity()) return;
+    button.disabled = true; form.setAttribute('aria-busy', 'true');
+    message.classList.remove('is-error'); message.textContent = 'Submitting your request…';
+    var payload = Object.fromEntries(new FormData(form).entries());
+    try {
+      var response = await fetch('/api/method/bike_garage.bike_garage.api.onboarding.submit_garage_registration', {
+        method: 'POST', credentials: 'same-origin',
+        headers: {'Content-Type': 'application/json', 'X-Frappe-CSRF-Token': csrfToken}, body: JSON.stringify(payload)
+      });
+      var result = await response.json().catch(function () { return {}; });
+      if (!response.ok) {
+        var detail = result.message;
+        if (typeof result._server_messages === 'string') {
+          try { detail = JSON.parse(result._server_messages).map(function (item) { return JSON.parse(item).message; }).filter(Boolean).join(' '); } catch (_error) {}
+        }
+        throw new Error(typeof detail === 'string' ? detail : 'The server could not save this request. Please try again later.');
+      }
+      message.textContent = result.message && (result.message.message || result.message) || 'Your request has been received for review.'; form.reset();
+    } catch (error) {
+      message.classList.add('is-error'); message.textContent = error.message || 'We could not submit this request. Check the details and try again later.';
+    } finally { button.disabled = false; form.removeAttribute('aria-busy'); }
+  });
+})();
+</script>
+{% endblock %}

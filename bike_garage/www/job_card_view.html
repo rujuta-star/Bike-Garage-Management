@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="csrf-token" content="{{ csrf_token|e }}"><title>{{ title|e }}</title>
+<style>body{font:16px system-ui,sans-serif;margin:0;background:#f4f6f8;color:#202a35}main{max-width:760px;margin:32px auto;padding:0 16px}.card{background:white;border-radius:10px;padding:22px;box-shadow:0 2px 12px #12203312}.back{display:inline-block;margin-bottom:16px;color:#245f8b}dl{display:grid;grid-template-columns:180px 1fr;gap:12px}dt{font-weight:600;color:#566372}dd{margin:0;white-space:pre-wrap}@media(max-width:520px){dl{grid-template-columns:1fr;gap:4px}dd{margin-bottom:12px}}</style>
+<link rel="stylesheet" href="/assets/bike_garage/css/garage_ui.css"></head>
+<body class="bg-job-page"><main class="bg-job-shell"><a class="back bg-job-back" href="/job_cards">← Job Cards</a><section class="card bg-job-panel"><h1>Job Card {{ job.name|e }}</h1><dl>
+<dt>Customer</dt><dd>{{ job.customer|e }}</dd><dt>Bike</dt><dd>{{ (job.registration_no or job.bike or "—")|e }}</dd><dt>Status</dt><dd>{{ job.status|e }}</dd><dt>Date</dt><dd>{{ job.date|e }}</dd>
+{% if job.estimated_delivery %}<dt>Estimated delivery</dt><dd>{{ job.estimated_delivery|e }}</dd>{% endif %}<dt>Reported problem</dt><dd>{{ job.problem_description|e }}</dd>
+</dl></section></main></body></html>

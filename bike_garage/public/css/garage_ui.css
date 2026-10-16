@@ -1,0 +1,472 @@
+/* Bike Garage website design system. Rules are scoped to app-owned pages. */
+:root {
+  --bg-ink: #17283d;
+  --bg-muted: #627286;
+  --bg-line: #dce4eb;
+  --bg-canvas: #f3f6f8;
+  --bg-paper: #fff;
+  --bg-accent: #bd3f4b;
+  --bg-accent-dark: #9e303c;
+  --bg-accent-soft: #fae9eb;
+  --bg-danger: #b43c42;
+  --bg-shadow: 0 14px 38px rgb(20 43 62 / 8%);
+}
+
+body:has(.bg-landing),
+body:has(.platform-admin),
+body.bg-job-page,
+body.bg-garage-app {
+  color: var(--bg-ink);
+  background: var(--bg-canvas);
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Public landing and registration */
+.bg-landing {
+  width: min(1180px, calc(100% - 48px));
+  padding: 24px 0 72px;
+  color: var(--bg-ink);
+}
+.bg-landing .bg-nav { padding: 8px 0 48px; }
+.bg-landing .bg-brand { color: var(--bg-ink); letter-spacing: -.03em; }
+.bg-landing .bg-brand::before {
+  content: "BG";
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
+  place-items: center;
+  border-radius: 11px;
+  color: #fff;
+  background: var(--bg-accent);
+  font-size: 12px;
+  letter-spacing: .04em;
+  vertical-align: middle;
+}
+.bg-landing .bg-login { color: var(--bg-ink); }
+.bg-landing .bg-login:hover { color: var(--bg-accent); }
+.bg-landing .bg-hero { max-width: 800px; padding: 20px 0 38px; }
+.bg-landing .bg-hero-layout {
+  display: grid;
+  max-width: none;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  align-items: center;
+  gap: 32px;
+}
+.bg-hero-art {
+  overflow: hidden;
+  padding: 18px;
+  border: 1px solid #263b51;
+  border-radius: 18px;
+  background-color: #172b40;
+  background-image: linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px);
+  background-size: 24px 24px;
+  box-shadow: 0 20px 48px rgb(20 43 62 / 15%);
+}
+.bg-hero-art svg { display: block; width: 100%; height: auto; }
+.bg-art-caption { padding: 8px 8px 3px; color: #d2dce5; font-size: 12px; letter-spacing: .02em; }
+.bg-landing .bg-kicker { color: var(--bg-accent-dark); letter-spacing: .1em; }
+.bg-landing .bg-hero h1 {
+  max-width: 780px;
+  color: var(--bg-ink);
+  font-size: clamp(42px, 6.5vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -.055em;
+}
+.bg-landing .bg-intro { max-width: 690px; color: var(--bg-muted); font-size: 18px; }
+.bg-primary-link,
+.bg-secondary-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  margin: 4px 8px 0 0;
+  padding: 0 17px;
+  border: 1px solid var(--bg-accent);
+  border-radius: 8px;
+  color: #fff;
+  background: var(--bg-accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.bg-secondary-link { color: var(--bg-accent-dark); background: transparent; }
+.bg-primary-link:hover { color: #fff; background: var(--bg-accent-dark); }
+.bg-secondary-link:hover { color: var(--bg-accent-dark); background: var(--bg-accent-soft); }
+.bg-landing .bg-form-card {
+  max-width: 880px;
+  border: 1px solid var(--bg-line);
+  border-radius: 18px;
+  box-shadow: var(--bg-shadow);
+}
+.bg-landing .bg-form-card h2 { color: var(--bg-ink); letter-spacing: -.025em; }
+.bg-landing .bg-muted { color: var(--bg-muted); }
+.bg-landing .bg-form-card label { color: #35475a; }
+.bg-landing .bg-form-card input,
+.bg-landing .bg-form-card textarea {
+  min-height: 44px;
+  border-color: #cbd6df;
+  color: var(--bg-ink);
+  background: #fff;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.bg-landing .bg-form-card input:focus,
+.bg-landing .bg-form-card textarea:focus {
+  outline: 3px solid rgb(189 63 75 / 16%);
+  border-color: var(--bg-accent);
+}
+.bg-landing .bg-form-card button {
+  min-height: 46px;
+  background: var(--bg-accent);
+  transition: background .15s ease, transform .15s ease;
+}
+.bg-landing .bg-form-card button:hover { background: var(--bg-accent-dark); transform: translateY(-1px); }
+.bg-landing .bg-form-card button:focus-visible,
+.bg-landing a:focus-visible { outline: 3px solid #d7838a; outline-offset: 3px; }
+.bg-landing .bg-message { color: #22634c; }
+.bg-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 880px;
+  margin: 0 0 28px;
+}
+.bg-feature-card {
+  min-height: 142px;
+  padding: 20px;
+  border: 1px solid var(--bg-line);
+  border-radius: 14px;
+  background: var(--bg-paper);
+}
+.bg-feature-card h3 { margin: 0 0 8px; color: var(--bg-ink); font-size: 16px; }
+.bg-feature-card p { margin: 0; color: var(--bg-muted); font-size: 13px; line-height: 1.6; }
+.bg-landing .bg-footer { max-width: 880px; padding: 24px 0 0; color: var(--bg-muted); font-size: 12px; }
+
+/* Garage dashboard. */
+body.bg-garage-app { background: var(--bg-canvas); }
+.bg-garage-app .sidebar {
+  width: 248px;
+  background: #14263b;
+  box-shadow: 3px 0 24px rgb(16 39 57 / 12%);
+}
+.bg-garage-app .sidebar-logo {
+  min-height: 82px;
+  background: #102235;
+  box-shadow: none;
+  border-bottom: 1px solid rgb(255 255 255 / 9%);
+}
+.bg-garage-app .menu-section { color: #9aabbd; font-size: 10px; letter-spacing: .12em; }
+.bg-garage-app .menu-item { color: #d0d9e2; }
+.bg-garage-app .menu-item:hover { background: rgb(255 255 255 / 8%); color: #fff; }
+.bg-garage-app .menu-item.active {
+  color: #fff;
+  background: rgb(189 63 75 / 28%);
+  border-left-color: #e27882;
+}
+.bg-garage-app .topbar {
+  left: 248px;
+  height: 64px;
+  padding: 0 30px;
+  border-color: #25394d;
+  color: #fff;
+  background: #1b2b3d;
+  box-shadow: 0 2px 12px rgb(12 28 43 / 14%);
+}
+.bg-garage-app .topbar h2 { color: #fff; font-size: 17px; }
+.bg-garage-app .user-badge { background: var(--bg-accent); box-shadow: none; }
+.bg-garage-app .top-desk-btn { background: var(--bg-accent); }
+.bg-garage-app .main { margin-left: 248px; margin-top: 64px; padding: 28px 32px 48px; }
+.bg-garage-app .card,
+.bg-garage-app .stat-card,
+.bg-garage-app .job-status-box,
+.bg-garage-app .cr-box {
+  border: 1px solid var(--bg-line);
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgb(24 47 67 / 5%);
+}
+.bg-garage-app .section-title { border-left-color: var(--bg-accent); color: var(--bg-ink); }
+.bg-garage-app .btn { background: var(--bg-accent); box-shadow: none; }
+.bg-garage-app .btn:hover { background: var(--bg-accent-dark); filter: none; box-shadow: none; }
+.bg-garage-app .btn-dark { background: var(--bg-ink); }
+.bg-garage-app .nav-demo button { border-radius: 8px; color: #44576b; }
+.bg-garage-app .nav-demo button:hover,
+.bg-garage-app .nav-demo button.active { border-color: var(--bg-accent); background: var(--bg-accent); color: #fff; box-shadow: none; }
+.bg-garage-app th { color: #506276; background: #f5f8fa; }
+.bg-garage-app .inv-tbl th { color: #fff; background: var(--bg-ink); }
+.bg-garage-app .empty { color: var(--bg-muted); }
+.bg-garage-app :focus-visible { outline: 3px solid rgb(189 63 75 / 45%); outline-offset: 2px; }
+
+/* Job-card pages */
+body.bg-job-page { min-height: 100vh; }
+.bg-job-page .bg-job-shell { width: min(1000px, calc(100% - 32px)); margin: 36px auto; }
+.bg-job-page .bg-job-back { display: inline-block; margin-bottom: 18px; color: var(--bg-accent-dark); font-weight: 650; text-decoration: none; }
+.bg-job-page .bg-job-back:hover { text-decoration: underline; }
+.bg-job-page .bg-job-panel {
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid var(--bg-line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--bg-shadow);
+}
+.bg-job-page h1 { margin: 0 0 8px; color: var(--bg-ink); font-size: clamp(26px, 4vw, 34px); letter-spacing: -.035em; }
+.bg-job-page p { color: var(--bg-muted); line-height: 1.6; }
+.bg-job-page label { color: #35475a; }
+.bg-job-page input,
+.bg-job-page select,
+.bg-job-page textarea { min-height: 44px; border-color: #cbd6df; color: var(--bg-ink); }
+.bg-job-page input:focus,
+.bg-job-page select:focus,
+.bg-job-page textarea:focus { outline: 3px solid rgb(189 63 75 / 16%); border-color: var(--bg-accent); }
+.bg-job-page button,
+.bg-job-page a.button { background: var(--bg-accent); transition: background .15s ease; }
+.bg-job-page button:hover,
+.bg-job-page a.button:hover { background: var(--bg-accent-dark); }
+.bg-job-page button:disabled { cursor: wait; opacity: .65; }
+.bg-job-page table { min-width: 680px; }
+.bg-job-page th { color: #506276; background: #f5f8fa; }
+.bg-job-page dl { grid-template-columns: minmax(140px, 190px) 1fr; }
+.bg-job-page dt { color: #526579; }
+
+/* Platform administration */
+.platform-admin { max-width: 1360px; padding: 34px 24px 70px; }
+.platform-admin .admin-header h1 { color: var(--bg-ink); letter-spacing: -.04em; }
+.platform-admin .eyebrow { color: var(--bg-accent-dark); }
+.platform-admin .count-card,
+.platform-admin .admin-card {
+  border-color: var(--bg-line);
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgb(24 47 67 / 5%);
+}
+.platform-admin .count-card strong { color: var(--bg-ink); }
+.platform-admin .section-head h2 { color: var(--bg-ink); letter-spacing: -.02em; }
+.platform-admin .section-head button,
+.platform-admin .save-membership,
+.platform-admin .add-membership button,
+.platform-admin .subscription-form button { background: var(--bg-ink); }
+.platform-admin .action-button { background: var(--bg-accent); }
+.platform-admin .action-button.secondary { background: #5b6b7b; }
+.platform-admin input,
+.platform-admin select { min-height: 40px; border: 1px solid #cbd6df; border-radius: 7px; }
+.platform-admin input:focus,
+.platform-admin select:focus { outline: 3px solid rgb(189 63 75 / 16%); border-color: var(--bg-accent); }
+.platform-admin #admin-message { color: #22634c; }
+.platform-admin :focus-visible { outline: 3px solid rgb(189 63 75 / 45%); outline-offset: 2px; }
+
+/* Style only Bike Garage Desk forms and lists; the rest of ERPNext is untouched. */
+body[data-route^="Form/BG "] .page-container[data-page-route^="Form/BG "] .layout-main-section,
+body[data-route^="List/BG "] .page-container[data-page-route^="List/BG "] .layout-main-section {
+  border: 1px solid var(--bg-line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 5px 20px rgb(24 47 67 / 5%);
+}
+body[data-route^="Form/BG "] .form-page,
+body[data-route^="Form/BG "] .form-dashboard-section,
+body[data-route^="Form/BG "] .form-section { background: #fff; }
+body[data-route^="Form/BG "] .form-section .section-head,
+body[data-route^="Form/BG "] .form-dashboard-section .section-head { color: var(--bg-ink); }
+body[data-route^="Form/BG "] .frappe-control input,
+body[data-route^="Form/BG "] .frappe-control select,
+body[data-route^="Form/BG "] .frappe-control textarea,
+body[data-route^="List/BG "] .list-filters input,
+body[data-route^="List/BG "] .list-filters select {
+  border-color: #cbd6df;
+  border-radius: 7px;
+}
+body[data-route^="Form/BG "] .frappe-control input:focus,
+body[data-route^="Form/BG "] .frappe-control select:focus,
+body[data-route^="Form/BG "] .frappe-control textarea:focus,
+body[data-route^="List/BG "] .list-filters input:focus,
+body[data-route^="List/BG "] .list-filters select:focus {
+  border-color: var(--bg-accent);
+  box-shadow: 0 0 0 3px rgb(189 63 75 / 13%);
+}
+body[data-route^="Form/BG "] .btn-primary,
+body[data-route^="List/BG "] .btn-primary,
+body[data-route^="Form/BG "] .primary-action,
+body[data-route^="List/BG "] .primary-action {
+  border-color: var(--bg-accent);
+  color: #fff;
+  background: var(--bg-accent);
+}
+body[data-route^="Form/BG "] .btn-primary:hover,
+body[data-route^="List/BG "] .btn-primary:hover,
+body[data-route^="Form/BG "] .primary-action:hover,
+body[data-route^="List/BG "] .primary-action:hover { background: var(--bg-accent-dark); }
+body[data-route^="Form/BG "] :focus-visible,
+body[data-route^="List/BG "] :focus-visible { outline: 3px solid rgb(189 63 75 / 40%); outline-offset: 2px; }
+
+/* Frappe's standard login, reset and signup flow; the authentication code stays native. */
+body:has(.for-login) {
+  min-height: 100vh;
+  background:
+    linear-gradient(125deg, rgb(8 18 31 / 84%), rgb(13 31 49 / 76%) 52%, rgb(35 22 34 / 78%)),
+    url("/assets/bike_garage/images/lovable-v3-workshop.jpg") center / cover fixed,
+    #122338 !important;
+}
+body:has(.for-login) .for-login {
+  position: relative;
+  display: grid;
+  width: min(100%, 980px);
+  min-height: min(780px, calc(100svh - 80px));
+  margin: 0 auto;
+  place-items: center;
+  overflow: hidden;
+  padding: clamp(36px, 7vw, 76px) 20px;
+  background: radial-gradient(ellipse at 18% 24%, rgb(189 63 75 / 24%), transparent 38%), radial-gradient(ellipse at 88% 82%, rgb(47 85 115 / 42%), transparent 42%);
+}
+body:has(.for-login) .for-login::before {
+  content: "BIKE GARAGE  /  SERVICE WORKSPACE";
+  position: absolute;
+  inset: auto auto 12% 6%;
+  color: rgb(224 233 240 / 12%);
+  font-size: clamp(18px, 3vw, 34px);
+  font-weight: 800;
+  letter-spacing: .16em;
+  pointer-events: none;
+}
+body:has(.for-login) .login-content.page-card {
+  position: relative;
+  width: min(100%, 460px);
+  padding: clamp(24px, 5vw, 38px);
+  border: 1px solid #dce4eb;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 28px 70px rgb(0 0 0 / 28%);
+}
+body:has(.for-login) .page-card-head { display:flex; align-items:center; gap:14px; }
+body:has(.for-login) .page-card-head img.app-logo { width:auto; max-width:64px; max-height:48px; object-fit:contain; }
+body:has(.for-login) .page-card-head h4 { color: var(--bg-ink); font-size:clamp(23px,4vw,29px); letter-spacing:-.03em; }
+body:has(.for-login) .bg-login-brand { margin:0 0 18px; color:var(--bg-accent-dark); font-size:12px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; }
+body:has(.for-login) .bg-login-register-link { margin:18px 0 0; color:#526579; text-align:center; }
+body:has(.for-login) .bg-login-register-link a { font-weight:700; }
+body:has(.for-login) .page-card-head p,
+body:has(.for-login) .form-label { color: #526579; }
+body:has(.for-login) .form-label { font-weight:650; }
+body:has(.for-login) .form-control { min-height: 48px; border-color: #cbd6df; border-radius: 9px; transition:border-color .16s ease,box-shadow .16s ease; }
+body:has(.for-login) .form-control:focus { border-color:var(--bg-accent); box-shadow:0 0 0 3px rgb(189 63 75 / 14%); }
+body:has(.for-login) .email-field,
+body:has(.for-login) .password-field { width:100%; }
+body:has(.for-login) .login-error-banner { gap:9px; padding:11px 13px; border:1px solid #f0c6c8; border-radius:9px; color:#8d252d; background:#fff1f1; line-height:1.45; }
+body:has(.for-login) .form-group.invalid .field-error { color:#a72d36; }
+body:has(.for-login) .btn-login.btn,
+body:has(.for-login) .btn-primary { border-color: var(--bg-accent); color: #fff; background: var(--bg-accent); }
+body:has(.for-login) .btn-login.btn { min-height:48px; border-radius:9px; font-size:15px; font-weight:700; transition:background .16s ease,transform .16s ease; }
+body:has(.for-login) .btn-login.btn:hover,
+body:has(.for-login) .btn-primary:hover { background: var(--bg-accent-dark); }
+body:has(.for-login) .btn-login.btn:hover { transform:translateY(-1px); }
+body:has(.for-login) a { color: var(--bg-accent-dark); }
+body:has(.for-login) :focus-visible { outline: 3px solid rgb(189 63 75 / 45%); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(.for-login) *, body:has(.my-account-avatar) * { scroll-behavior:auto !important; transition-duration:0.01ms !important; animation-duration:0.01ms !important; animation-iteration-count:1 !important; }
+}
+
+/* Frappe's existing account page, with Bike Garage dashboard styling. */
+body:has(.my-account-avatar) { color:var(--bg-ink); background:linear-gradient(145deg,#eef3f6,#f8f9fa 58%,#f5edef); font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif; }
+body:has(.my-account-avatar) .container { height:auto; min-height:100svh; justify-content:center; padding:clamp(24px,5vw,64px) 20px; }
+body:has(.my-account-avatar) .portal-container { width:min(100%,680px); max-width:680px; margin:0 auto; padding:clamp(22px,4vw,38px); border:1px solid var(--bg-line); border-radius:18px; background:var(--bg-paper); box-shadow:var(--bg-shadow); }
+body:has(.my-account-avatar) .portal-section.head { align-items:center; padding-bottom:22px; margin:0 0 22px; border-bottom:1px solid var(--bg-line); }
+body:has(.my-account-avatar) .portal-section.head .title { color:var(--bg-ink); font-size:22px; font-weight:750; letter-spacing:-.03em; }
+body:has(.my-account-avatar) .my-account-name { color:var(--bg-ink); font-size:15px; font-weight:650; overflow-wrap:anywhere; }
+body:has(.my-account-avatar) .portal-items { overflow:hidden; border:1px solid var(--bg-line); border-radius:12px; }
+body:has(.my-account-avatar) .portal-items .portal-section { min-height:58px; padding:13px 16px; transition:background .15s ease; }
+body:has(.my-account-avatar) .portal-items .portal-section:hover { background:#f7f9fa; }
+body:has(.my-account-avatar) .portal-items a { display:flex; align-items:center; gap:10px; color:#35475a; font-weight:550; }
+body:has(.my-account-avatar) .portal-items a:hover { color:var(--bg-accent-dark); }
+body:has(.my-account-avatar) .bg-profile-navigation { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+body:has(.my-account-avatar) .bg-profile-navigation a { display:inline-flex; min-height:44px; align-items:center; justify-content:center; padding:0 17px; border:1px solid var(--bg-accent); border-radius:9px; color:#fff; background:var(--bg-accent); font-size:14px; font-weight:700; text-decoration:none; transition:background .15s ease,transform .15s ease; }
+body:has(.my-account-avatar) .bg-profile-navigation a:hover { color:#fff; background:var(--bg-accent-dark); transform:translateY(-1px); }
+body:has(.my-account-avatar) .bg-profile-navigation .bg-profile-home { color:var(--bg-accent-dark); background:#fff; }
+body:has(.my-account-avatar) .bg-profile-navigation .bg-profile-home:hover { color:var(--bg-accent-dark); background:var(--bg-accent-soft); }
+body:has(.my-account-avatar) .portal-footer { flex-wrap:wrap; gap:12px 24px; margin:18px auto 0; }
+body:has(.my-account-avatar) .portal-footer a { color:#526579; font-size:13px; }
+body:has(.my-account-avatar) .portal-footer a:hover { color:var(--bg-accent-dark); }
+body:has(.my-account-avatar) a:focus-visible { outline:3px solid rgb(189 63 75 / 38%); outline-offset:3px; border-radius:5px; }
+
+.bg-edit-profile-navigation { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 20px; padding:0 0 16px; border-bottom:1px solid #dfe5eb; }
+.bg-edit-profile-navigation a { display:inline-flex; min-height:42px; align-items:center; justify-content:center; padding:0 15px; border:1px solid var(--bg-accent); border-radius:8px; color:var(--bg-accent-dark); background:#fff; font-weight:700; text-decoration:none; }
+.bg-edit-profile-navigation a:hover { color:#fff; background:var(--bg-accent); }
+.bg-edit-profile-navigation a:focus-visible { outline:3px solid rgb(189 63 75 / 38%); outline-offset:3px; }
+@media (max-width: 600px) {
+  .bg-edit-profile-navigation { gap:8px; }
+  .bg-edit-profile-navigation a { flex:1 1 130px; }
+}
+
+.bg-garage-app .sidebar-toggle,
+.bg-garage-app .sidebar-scrim { display: none; }
+@media (max-width: 860px) {
+  .bg-garage-app .topbar { left: 0; gap: 12px; }
+  .bg-garage-app .topbar h2 { margin-right: auto; }
+  .bg-garage-app .sidebar-toggle {
+    display: inline-grid;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    place-items: center;
+    border: 1px solid #53677a;
+    border-radius: 8px;
+    color: #fff;
+    background: #263c52;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .bg-garage-app .sidebar-toggle:focus-visible { outline: 3px solid #e27882; outline-offset: 2px; }
+  .bg-garage-app .sidebar {
+    z-index: 120;
+    transform: translateX(-105%);
+    transition: transform .2s ease;
+  }
+  .bg-garage-app.garage-nav-open .sidebar { transform: translateX(0); }
+  .bg-garage-app .sidebar-scrim {
+    position: fixed;
+    z-index: 110;
+    inset: 0;
+    display: block;
+    border: 0;
+    background: rgb(8 20 32 / 55%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+  }
+  .bg-garage-app.garage-nav-open .sidebar-scrim { opacity: 1; pointer-events: auto; }
+ .bg-garage-app .main { margin-left: 0; padding: 22px 20px 36px; }
+}
+@media (max-width: 640px) {
+  .bg-landing { width: min(100% - 32px, 560px); padding-top: 16px; }
+  .bg-landing .bg-nav { padding-bottom: 24px; }
+  .bg-landing .bg-hero { padding-top: 12px; }
+  .bg-landing .bg-hero-layout { grid-template-columns: 1fr; gap: 22px; }
+  .bg-hero-art { max-width: 480px; }
+  .bg-feature-grid { grid-template-columns: 1fr; }
+  .bg-landing .bg-form-card { padding: 20px; }
+  .bg-landing .bg-form-card form { grid-template-columns: 1fr; }
+  .bg-landing .bg-wide { grid-column: auto; }
+  .bg-garage-app .topbar { padding: 0 14px; }
+  .bg-garage-app .topbar-right { gap: 7px; }
+  .bg-garage-app .top-desk-btn { display: none; }
+  .bg-garage-app .main { padding: 18px 12px 28px; }
+  .bg-garage-app .nav-demo { flex-wrap: nowrap; overflow-x: auto; padding: 2px 0 8px; }
+  .bg-garage-app .nav-demo button { flex: 0 0 auto; }
+  .bg-garage-app .stats-grid,
+  .bg-garage-app .rpt-grid,
+  .bg-garage-app .cr-boxes { grid-template-columns: 1fr 1fr; }
+  .bg-job-page .bg-job-shell { margin: 20px auto; }
+  .bg-job-page dl { grid-template-columns: 1fr; gap: 4px; }
+  .bg-job-page dd { margin: 0 0 12px; }
+  .platform-admin { padding: 22px 14px 48px; }
+  .platform-admin .admin-header { align-items: flex-start; }
+  .platform-admin .section-head { align-items: flex-start; }
+  body:has(.for-login) .for-login { min-height:calc(100svh - 48px); padding:28px 14px; }
+  body:has(.for-login) .login-content.page-card { min-height:0; padding:24px 20px; border-radius:16px; }
+  body:has(.my-account-avatar) .container { padding:28px 14px; }
+  body:has(.my-account-avatar) .portal-section.head { align-items:flex-start; gap:14px; }
+  body:has(.my-account-avatar) .portal-section.head > div:last-child { text-align:right; }
+  body:has(.my-account-avatar) .bg-profile-navigation { display:grid; grid-template-columns:1fr; }
+  body:has(.my-account-avatar) .bg-profile-navigation a { width:100%; }
+  body:has(.my-account-avatar) .portal-footer { gap:12px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}

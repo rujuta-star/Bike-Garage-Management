@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token|e }}"><title>Create Job Card</title>
+  <style>
+    body{font:16px system-ui,sans-serif;margin:0;background:#f4f6f8;color:#202a35}main{max-width:720px;margin:32px auto;padding:0 16px}.card{background:white;border-radius:10px;padding:22px;box-shadow:0 2px 12px #12203312}
+    label{display:block;font-weight:600;margin:16px 0 6px}input,select,textarea{box-sizing:border-box;width:100%;padding:10px;border:1px solid #cbd3dc;border-radius:6px;font:inherit}textarea{min-height:130px;resize:vertical}button,.button{display:inline-block;margin-top:18px;padding:10px 15px;border:0;border-radius:7px;background:#17324d;color:white;text-decoration:none;font:inherit;cursor:pointer}
+    .notice{margin:12px 0;padding:12px;border-radius:6px}.error{background:#fff0ef;color:#8b1a12}.success{background:#e9f7ee;color:#14532d}.back{display:inline-block;margin-bottom:16px;color:#245f8b}
+  </style>
+  <link rel="stylesheet" href="/assets/bike_garage/css/garage_ui.css">
+</head>
+<body class="bg-job-page"><main class="bg-job-shell">
+  <a class="back bg-job-back" href="/job_cards">← Job Cards</a><section class="card bg-job-panel">
+    <h1>Create Job Card</h1><p>New Job Cards created here contain no parts. Stock consumption remains disabled for this workflow.</p>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+    <form id="job-form">
+      <label for="customer">Customer</label><select id="customer" name="customer" required>
+        <option value="">Choose a customer</option>{% for item in options.customers %}<option value="{{ item.name|e }}">{{ (item.customer_name or item.name)|e }}</option>{% endfor %}
+      </select>
+      <label for="bike">Bike (optional)</label><select id="bike" name="bike"><option value="">No bike selected</option>
+        {% for item in options.bikes %}<option value="{{ item.name|e }}" data-customer="{{ item.customer|e }}">{{ (item.registration_no or item.name)|e }}{% if item.bike_brand or item.bike_model %} — {{ (item.bike_brand or "")|e }} {{ (item.bike_model or "")|e }}{% endif %}</option>{% endfor %}
+      </select>
+      <label for="problem_description">Reported problem</label><textarea id="problem_description" name="problem_description" maxlength="2000" required></textarea>
+      <button type="submit" id="submit">Save Job Card</button>
+      <a id="open-job" class="button" hidden>Open Job Card</a>
+    </form>
+  </section></main>
+<script>
+const form=document.getElementById('job-form'),notice=document.getElementById('notice'),bike=document.getElementById('bike'),customer=document.getElementById('customer');
+customer.addEventListener('change',()=>{for(const option of bike.options){option.hidden=Boolean(option.value)&&option.dataset.customer!==customer.value;if(option.hidden&&option.selected)bike.value='';}});
+function errorText(payload){
+  try{const messages=JSON.parse(payload._server_messages||'[]');if(messages.length)return messages.map(x=>{try{return JSON.parse(x).message||x}catch{return x}}).join(' ')}catch{}
+  if(payload.exc||payload.exc_type)return 'Unable to save this Job Card. Check the selected customer and bike, then try again.';
+  return payload.message||'Unable to save this Job Card. Check the selected customer and bike, then try again.';
+}
+form.addEventListener('submit',async event=>{
+  event.preventDefault();notice.hidden=true;notice.className='notice';
+  const button=document.getElementById('submit');button.disabled=true;
+  try{
+    const body=new FormData(form);if(!body.get('bike'))body.delete('bike');
+    const response=await fetch('/api/method/bike_garage.bike_garage.api.garage_job_cards.create_job_card',{method:'POST',credentials:'same-origin',headers:{'X-Frappe-CSRF-Token':document.querySelector('meta[name="csrf-token"]').content},body});
+    const payload=await response.json();if(!response.ok||payload.exc||payload.exc_type)throw new Error(errorText(payload));
+    notice.textContent=`Job Card ${payload.message.name} was created.`;notice.className='notice success';notice.hidden=false;
+    const link=document.getElementById('open-job');link.href='/job_card_view?name='+encodeURIComponent(payload.message.name);link.hidden=false;
+  }catch(error){notice.textContent=error.message||'Unable to save this Job Card.';notice.className='notice error';notice.hidden=false}
+  finally{button.disabled=false}
+});
+</script></body></html>

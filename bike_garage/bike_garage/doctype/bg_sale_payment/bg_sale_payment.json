@@ -1,0 +1,30 @@
+{
+ "actions": [],
+ "autoname": "format:BGP-{####}",
+ "creation": "2026-10-15 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["sale", "garage", "amount", "payment_mode", "reference", "submission_key", "request_fingerprint"],
+ "fields": [
+  {"fieldname": "sale", "fieldtype": "Link", "label": "Sale", "options": "BG Sale", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "garage", "fieldtype": "Link", "label": "Garage", "options": "BG Garage", "reqd": 1, "read_only": 1},
+  {"fieldname": "amount", "fieldtype": "Currency", "label": "Amount Received", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "payment_mode", "fieldtype": "Select", "label": "Payment Method", "options": "Cash\nUPI\nCard\nNEFT\nCheque", "reqd": 1},
+  {"fieldname": "reference", "fieldtype": "Data", "label": "Payment Reference", "length": 140},
+  {"fieldname": "submission_key", "fieldtype": "Data", "label": "Submission Key", "reqd": 1, "unique": 1, "read_only": 1, "hidden": 1},
+  {"fieldname": "request_fingerprint", "fieldtype": "Data", "label": "Request Fingerprint", "reqd": 1, "read_only": 1, "hidden": 1}
+ ],
+ "links": [],
+ "modified": "2026-10-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bike Garage",
+ "name": "BG Sale Payment",
+ "owner": "Administrator",
+ "permissions": [
+  {"read": 1, "role": "All"}
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "title_field": "sale",
+ "track_changes": 1
+}

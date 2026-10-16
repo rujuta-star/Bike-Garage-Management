@@ -53,3 +53,16 @@ jspm_packages/
 
 # Aider AI Chat
 .aider*
+
+# Local backups and sensitive configuration
+*.backup
+*.sql
+*.sql.gz
+*.dump
+site_config.json
+common_site_config.json
+.env.*
+*.pem
+*.key
+*credentials*
+*secret*

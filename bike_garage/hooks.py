@@ -5,6 +5,17 @@ app_description = "Bike Garage and Spare Parts Management System"
 app_email = "utkrishiagriflow@gmail.com"
 app_license = "mit"
 
+
+# Create the platform role definition during a future migration. This never
+# assigns the role to a user; assignment remains an explicit administrator task.
+after_migrate = "bike_garage.install.after_migrate"
+after_install = "bike_garage.install.after_install"
+get_website_user_home_page = "bike_garage.website.get_home_page"
+website_path_resolver = "bike_garage.website.resolve_website_path"
+app_include_css = ["/assets/bike_garage/css/garage_ui.css"]
+web_include_css = "/assets/bike_garage/css/garage_ui.css"
+web_include_js = ["/assets/bike_garage/js/garage_login.js"]
+
 # Apps
 # ------------------
 
@@ -126,6 +137,28 @@ app_license = "mit"
 # -----------
 # Permissions evaluated in scripted ways
 
+permission_query_conditions = {
+	"BG Customer": "bike_garage.permissions.get_permission_query_conditions",
+	"BG Bike": "bike_garage.permissions.get_permission_query_conditions",
+	"BG Job Card": "bike_garage.permissions.get_permission_query_conditions",
+	"BG Spare Part": "bike_garage.permissions.get_permission_query_conditions",
+	"BG Sale": "bike_garage.permissions.get_permission_query_conditions",
+	"BG Sale Payment": "bike_garage.permissions.get_permission_query_conditions",
+	"BG Expense": "bike_garage.permissions.get_permission_query_conditions",
+	"BG Stock Movement": "bike_garage.permissions.get_permission_query_conditions",
+}
+
+has_permission = {
+	"BG Customer": "bike_garage.permissions.has_permission",
+	"BG Bike": "bike_garage.permissions.has_permission",
+	"BG Job Card": "bike_garage.permissions.has_permission",
+	"BG Spare Part": "bike_garage.permissions.has_permission",
+	"BG Sale": "bike_garage.permissions.has_permission",
+	"BG Sale Payment": "bike_garage.permissions.has_permission",
+	"BG Expense": "bike_garage.permissions.has_permission",
+	"BG Stock Movement": "bike_garage.permissions.has_permission",
+}
+
 # permission_query_conditions = {
 # 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
@@ -145,6 +178,65 @@ app_license = "mit"
 # 		"on_trash": "method"
 # 	}
 # }
+
+doc_events = {
+	"BG Customer": {
+		"before_insert": "bike_garage.permissions.assign_garage_on_insert",
+		"validate": [
+			"bike_garage.permissions.validate_garage_ownership",
+			"bike_garage.erpnext_integration.validate_mapping_reference",
+		],
+	},
+	"BG Bike": {
+		"before_insert": "bike_garage.permissions.assign_garage_on_insert",
+		"validate": "bike_garage.permissions.validate_garage_ownership",
+	},
+	"BG Job Card": {
+		"before_insert": "bike_garage.permissions.assign_garage_on_insert",
+		"validate": [
+			"bike_garage.permissions.validate_garage_ownership",
+			"bike_garage.erpnext_integration.validate_mapping_reference",
+		],
+		"on_update": "bike_garage.stock.update_stock_from_job_card",
+		"on_trash": "bike_garage.stock.restore_stock_from_job_card",
+	},
+	"BG Spare Part": {
+		"before_insert": "bike_garage.permissions.assign_garage_on_insert",
+		"validate": [
+			"bike_garage.permissions.validate_garage_ownership",
+			"bike_garage.erpnext_integration.validate_mapping_reference",
+		],
+	},
+	"BG Sale": {
+		"before_insert": "bike_garage.permissions.assign_garage_on_insert",
+		"validate": [
+			"bike_garage.permissions.validate_garage_ownership",
+			"bike_garage.erpnext_integration.validate_mapping_reference",
+		],
+		"on_update": "bike_garage.stock.update_stock_from_sale",
+		"on_trash": [
+			"bike_garage.payments.prevent_sale_with_payments_from_deletion",
+			"bike_garage.stock.restore_stock_from_sale",
+		],
+	},
+	"BG Sale Payment": {
+		"before_insert": "bike_garage.permissions.assign_garage_on_insert",
+		"validate": "bike_garage.permissions.validate_garage_ownership",
+	},
+	"BG Expense": {
+		"before_insert": "bike_garage.permissions.assign_garage_on_insert",
+		"validate": "bike_garage.permissions.validate_garage_ownership",
+	},
+	"BG Stock Movement": {
+		"before_insert": "bike_garage.permissions.assign_garage_on_insert",
+		"validate": "bike_garage.permissions.validate_garage_ownership",
+		"on_submit": "bike_garage.stock.apply_stock_movement",
+		"on_cancel": "bike_garage.stock.reverse_stock_movement",
+	},
+	"BG Garage": {
+		"validate": "bike_garage.erpnext_integration.validate_mapping_reference",
+	},
+}
 
 # Scheduled Tasks
 # ---------------

@@ -1,0 +1,302 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Platform administration{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block page_content %}
+<main class="platform-admin">
+  <aside class="platform-sidebar">
+    <a class="platform-brand" href="/" aria-label="Bike Garage home"><span class="platform-brand-mark" aria-hidden="true">BG</span><span>Bike Garage<small>Platform Admin</small></span></a>
+    <p class="sidebar-label">WORKSPACE</p>
+    <nav class="platform-nav" aria-label="Platform administration">
+      <a class="active" href="#overview"><span aria-hidden="true">⌂</span>Dashboard</a>
+      <a href="#garage-management"><span aria-hidden="true">▤</span>Garage applications</a>
+      <a href="#garage-list"><span aria-hidden="true">▦</span>Registered garages</a>
+      <a href="#membership-management"><span aria-hidden="true">♙</span>Memberships</a>
+      <a href="#platform-reports"><span aria-hidden="true">▥</span>Platform reports</a>
+      <a href="#subscription-management"><span aria-hidden="true">◇</span>Subscription plans</a>
+      <a href="#garage-subscriptions-heading"><span aria-hidden="true">◷</span>Garage subscriptions</a>
+    </nav>
+    <div class="sidebar-foot"><span class="security-mark" aria-hidden="true">✓</span><span>Restricted platform access</span></div>
+  </aside>
+  <div class="platform-content">
+  <header class="admin-header">
+    <div class="header-title"><p class="eyebrow">BIKE GARAGE SOFTWARE</p><h1>Platform Admin Dashboard</h1><p class="header-description">Review garage applications and manage platform access.</p></div>
+    <label class="global-search"><span aria-hidden="true">⌕</span><span class="sr-only">Search garages, owners, or email</span><input id="garage-search" type="search" maxlength="100" placeholder="Search garages, owners, email…" autocomplete="off"></label>
+    <div class="admin-profile"><span class="profile-avatar" aria-hidden="true">{{ user[:1]|e|upper }}</span><span class="profile-copy"><strong>{{ user|e }}</strong><small>Platform Super Admin</small></span><a class="logout-link" href="/logout">Log out</a></div>
+  </header>
+  <section class="pending-alert" aria-live="polite"><span class="alert-dot" aria-hidden="true"></span><span id="pending-alert-text">Checking pending applications…</span><button id="review-pending" type="button">Review requests <span aria-hidden="true">→</span></button></section>
+  <section id="overview" class="overview-section" aria-labelledby="overview-heading"><div class="section-heading"><div><p class="eyebrow">AT A GLANCE</p><h2 id="overview-heading">Platform status</h2></div><button id="reload" class="refresh-button" type="button"><span aria-hidden="true">↻</span> Refresh</button></div><section id="counts" class="count-grid" aria-label="Platform counts"><p class="loading-state">Loading platform metrics…</p></section></section>
+  <section class="admin-card quick-actions-card" aria-labelledby="quick-actions-heading"><div class="section-head"><div><p class="eyebrow">WORKSPACE</p><h2 id="quick-actions-heading">Quick actions</h2></div></div><nav class="quick-actions" aria-label="Platform quick actions"><a href="#garage-management" id="quick-review"><span aria-hidden="true">✓</span> Review applications</a><a href="#garage-list"><span aria-hidden="true">▦</span> View garages</a><a href="#membership-management"><span aria-hidden="true">♙</span> Manage memberships</a><a href="#subscription-management"><span aria-hidden="true">◇</span> Manage plans</a></nav></section>
+  <section class="admin-card reports-card" id="platform-reports" aria-labelledby="reports-heading"><div class="section-head"><div><p class="eyebrow">PLATFORM REPORTS</p><h2 id="reports-heading">Garage status distribution</h2><p>Current garage totals by recorded status.</p></div></div><div id="garage-status-report" class="status-report" aria-live="polite"><p class="loading-state">Loading status report…</p></div></section>
+  <section class="admin-card" id="garage-management"><div class="section-head"><div><p class="eyebrow">ACCESS REVIEW</p><h2>Garage applications</h2><p>Recent applications and registrations, newest first. Review details before approving or rejecting.</p></div><div class="admin-filters"><label for="application-filter">Status</label><select id="application-filter"><option value="All">All statuses</option><option>Pending</option><option>Approved</option><option>Active</option><option>Suspended</option><option>Rejected</option><option>Closed</option></select></div></div><p id="garage-list-status" class="subtle" role="status" aria-live="polite"></p><div class="table-wrap" id="garage-list"><table><thead><tr><th>Garage</th><th>Owner</th><th>Contact</th><th>Status</th><th>Decision / registration</th><th>Action</th></tr></thead><tbody id="garages"></tbody></table></div><div class="admin-pager"><button id="garage-prev" type="button">Previous</button><span id="garage-page" aria-live="polite"></span><button id="garage-next" type="button">Next</button></div></section>
+  <dialog id="application-dialog" aria-labelledby="application-dialog-title"><form method="dialog"><button class="dialog-close" aria-label="Close application details">Close</button></form><h2 id="application-dialog-title">Application details</h2><dl id="application-details"></dl></dialog>
+  <section class="admin-card" id="membership-management"><div class="section-head"><div><p class="eyebrow">ACCESS CONTROL</p><h2>Garage memberships</h2><p>Membership type is the app's garage role label; this page never assigns Frappe system roles.</p></div></div><form id="add-membership" class="add-membership"><label>Existing user email<input name="user_email" type="email" required></label><label>Active garage<select name="garage_name" id="membership-garage" required></select></label><label>Membership type<select name="membership_type" id="membership-type"></select></label><button type="submit">Add pending member</button></form><div class="admin-filters"><label for="membership-search">Search user or garage</label><input id="membership-search" type="search" maxlength="100"><label for="membership-status">Status</label><select id="membership-status"><option>All</option><option>Pending</option><option>Active</option><option>Suspended</option></select><label for="membership-filter-type">Type</label><select id="membership-filter-type"><option>All</option><option>Owner</option><option>Manager</option><option>Service Advisor</option><option>Technician</option><option>Inventory Manager</option><option>Accountant</option></select></div><p id="membership-list-status" class="subtle" role="status" aria-live="polite"></p><div class="table-wrap"><table><thead><tr><th>User</th><th>Garage</th><th>Status</th><th>Membership type</th><th>Save</th></tr></thead><tbody id="memberships"></tbody></table></div><div class="admin-pager"><button id="membership-prev" type="button">Previous</button><span id="membership-page" aria-live="polite"></span><button id="membership-next" type="button">Next</button></div></section>
+  <section class="admin-card" id="subscription-management" aria-labelledby="subscription-heading">
+    <div class="section-head"><div><h2 id="subscription-heading">Subscription plans</h2><p>Plan terms are separate from garage sales, expenses, and profit/loss.</p></div></div>
+    <form id="subscription-plan-form" class="subscription-form">
+      <label>Plan name<input name="plan_name" maxlength="140" required></label>
+      <label>Billing period<select name="billing_period" required><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select></label>
+      <label>Agreed plan amount<input name="amount" type="number" min="0" step="0.01" required></label>
+      <label>Currency code<input name="currency" maxlength="3" required></label>
+      <label>Status<select name="status"><option>Active</option><option>Inactive</option></select></label>
+      <label>Description<input name="description" maxlength="2000"></label>
+      <button type="submit">Save plan</button>
+    </form>
+    <div class="admin-filters"><label for="subscription-search">Search garage or plan</label><input id="subscription-search" type="search" maxlength="100"><label for="subscription-status">Status</label><select id="subscription-status"><option>All</option><option>Pending</option><option>Active</option><option>Suspended</option><option>Cancelled</option><option>Expired</option></select></div>
+    <div class="table-wrap"><table><thead><tr><th>Plan</th><th>Status</th><th>Billing period</th><th>Amount</th><th>Currency</th><th>Description</th></tr></thead><tbody id="subscription-plans"></tbody></table></div>
+  </section>
+  <section class="admin-card" aria-labelledby="garage-subscriptions-heading">
+    <div class="section-head"><div><h2 id="garage-subscriptions-heading">Garage subscriptions</h2><p>New records start Pending. Payment references remain unverified; payment collection and confirmed platform revenue are not implemented.</p></div></div>
+    <form id="garage-subscription-form" class="subscription-form">
+      <label>Garage<select name="garage" id="subscription-garage" required></select></label>
+      <label>Plan<select name="plan" id="subscription-plan" required></select></label>
+      <label>Start date<input name="start_date" type="date" required></label>
+      <label>End date<input name="end_date" type="date" required></label>
+      <label>Agreed amount override<input name="agreed_amount" type="number" min="0" step="0.01"></label>
+      <label>Currency override<input name="currency" maxlength="3"></label>
+      <label>Billing period override<select name="billing_period"><option value="">Use plan period</option><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select></label>
+      <label>Payment reference (unverified)<input name="payment_reference" maxlength="140"></label>
+      <button type="submit">Create pending subscription</button>
+    </form>
+    <p id="subscription-load-message" class="subtle" role="status" aria-live="polite">Loading subscription records…</p>
+    <div class="table-wrap"><table><thead><tr><th>Garage</th><th>Plan</th><th>Status</th><th>Dates / period</th><th>Agreed amount</th><th>Payment</th><th>Reference</th><th>Save status</th></tr></thead><tbody id="garage-subscriptions"></tbody></table></div>
+    <div class="admin-pager"><button id="subscription-prev" type="button">Previous</button><span id="subscription-page" aria-live="polite"></span><button id="subscription-next" type="button">Next</button></div>
+    <p class="subtle">Confirmed collections: unavailable because no payment verification or collection records exist.</p>
+  </section>
+  <p id="admin-message" class="admin-message" role="status" aria-live="polite"></p>
+  </div>
+</main>
+<link rel="stylesheet" href="/assets/bike_garage/css/platform_admin.css">
+<script>
+(() => {
+  const csrf = '{{ csrf_token }}';
+  const message = document.getElementById('admin-message');
+  const applicationFilter = document.getElementById('application-filter');
+  const roleTypes = ['Owner','Manager','Service Advisor','Technician','Inventory Manager','Accountant'];
+  const memberStatuses = ['Pending','Active','Suspended'];
+  const PAGE_SIZE = 20;
+  const page = { garages: 0, memberships: 0, subscriptions: 0 };
+  let garageRequestVersion = 0;
+  let activeGarageOptions = [];
+  async function api(method, data = null) {
+    const response = await fetch('/api/method/bike_garage.bike_garage.api.onboarding.' + method, {
+      method: data ? 'POST' : 'GET', credentials: 'same-origin',
+      headers: data ? {'Content-Type':'application/json','X-Frappe-CSRF-Token':csrf} : {},
+      body: data ? JSON.stringify(data) : undefined
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      if (method === 'approve_garage_application' && result.exc_type === 'OutgoingEmailError') {
+        throw new Error('Approval was not completed because outgoing email is unavailable. Configure a default sender; the application remains pending.');
+      }
+      throw new Error(apiErrorMessage(result, 'The request was denied or could not be completed.'));
+    }
+    return result.message;
+  }
+  async function queryApi(method, params) {
+    const url = new URL('/api/method/bike_garage.bike_garage.api.onboarding.' + method, location.origin);
+    Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
+    const response = await fetch(url, {credentials:'same-origin'});
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(apiErrorMessage(result, 'The list request was denied or could not be completed.'));
+    return result.message;
+  }
+  function apiErrorMessage(result, fallback) {
+    if (typeof result.message === 'string' && result.message.trim()) return result.message;
+    if (typeof result._server_messages === 'string') {
+      try {
+        const messages = JSON.parse(result._server_messages).map((item) => JSON.parse(item).message).filter(Boolean);
+        if (messages.length) return messages.join(' ');
+      } catch (_) {}
+    }
+    return fallback;
+  }
+  async function subscriptionApi(method, data = null) {
+    const url = new URL('/api/method/bike_garage.bike_garage.api.subscriptions.' + method, location.origin);
+    const isRead = method === 'get_platform_subscription_data';
+    if (isRead && data) Object.entries(data).forEach(([key,value])=>url.searchParams.set(key,value));
+    const response = await fetch(url, {
+      method: data && !isRead ? 'POST' : 'GET', credentials: 'same-origin',
+      headers: data && !isRead ? {'Content-Type':'application/json','X-Frappe-CSRF-Token':csrf} : {},
+      body: data && !isRead ? JSON.stringify(data) : undefined
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error('Subscription request was denied or could not be completed.');
+    return result.message;
+  }
+  function cell(row, text) { const td = document.createElement('td'); td.textContent = text || ''; row.appendChild(td); return td; }
+  function optionSelect(values, selected) {
+    const select = document.createElement('select');
+    values.forEach(value => { const option = document.createElement('option'); option.value = value; option.textContent = value; option.selected = value === selected; select.appendChild(option); });
+    return select;
+  }
+  function action(label, handler, secondary = false, confirmation = null) {
+    const button = document.createElement('button'); button.type='button'; button.className = 'action-button' + (secondary ? ' secondary' : ''); button.textContent = label;
+    button.addEventListener('click', async () => { if (button.disabled || (confirmation && !window.confirm(confirmation))) return; button.disabled=true; try { await handler(); } finally { button.disabled=false; } }); return button;
+  }
+  function showApplication(garage) {
+    const details=document.getElementById('application-details');details.replaceChildren();
+    const values=[['Garage',garage.garage_name],['Garage ID',garage.garage_id],['Owner',garage.owner_name],['Owner account',garage.owner_user],['Email',garage.email],['Phone',garage.phone],['Address',[garage.address,garage.city,garage.state,garage.pin_code].filter(Boolean).join(', ')],['Submitted',garage.creation],['Status',garage.status],['Decision by',garage.application_decision_by],['Decision on',garage.application_decision_on],['Registration',garage.registration_completed_on?'Completed':garage.status==='Approved'?'Awaiting owner registration':'Not started'],['Email status',garage.registration_email_status]];
+    values.forEach(([label,value])=>{const term=document.createElement('dt');term.textContent=label;const description=document.createElement('dd');description.textContent=value||'—';details.append(term,description);});
+    document.getElementById('application-dialog').showModal();
+  }
+  function renderGarages(garageRows) {
+    const garages = document.getElementById('garages'); garages.replaceChildren();
+    if(!garageRows.length){const row=document.createElement('tr');const empty=cell(row,'No garages match this search and filter.');empty.colSpan=6;garages.appendChild(row);}
+    garageRows.forEach(garage => {
+      const row=document.createElement('tr');cell(row,garage.garage_name+' ('+garage.garage_id+')');cell(row,garage.owner_name);cell(row,[garage.email,garage.phone,garage.city].filter(Boolean).join(' · '));cell(row,garage.status).className='status';
+      const decision=garage.application_decision_on?`${garage.application_decision_by||'Administrator'} · ${garage.application_decision_on}`:garage.registration_completed_on?'Owner registered':'—';
+      cell(row,decision);
+      const controls=document.createElement('td');controls.append(action('View',()=>showApplication(garage),true));
+      if (garage.status==='Pending') { controls.append(action('Approve',()=>run('approve_garage_application',{garage_name:garage.name}),false,'Approve this garage application? A one-time registration link will be generated.'));controls.append(action('Reject',()=>run('reject_garage_application',{garage_name:garage.name}),true,'Reject this pending application? This decision cannot be undone from the dashboard.')); }
+      else if (garage.status==='Approved'&&!garage.registration_completed_on) controls.append(action('Resend registration link',()=>run('resend_garage_registration_link',{garage_name:garage.name}),true,'Generate a new one-time registration link? Any previous link will stop working.'));
+      else if (garage.status==='Active') controls.append(action('Suspend',()=>run('set_garage_status',{garage_name:garage.name,status:'Suspended'}),false,'Suspend this garage and block its active members from using garage dashboards?'));
+      else if (garage.status==='Suspended') controls.append(action('Reactivate',()=>run('set_garage_status',{garage_name:garage.name,status:'Active'}),false,'Reactivate this garage?'));
+      row.appendChild(controls);garages.appendChild(row);
+    });
+  }
+  async function loadGarages() {
+    const requestVersion = ++garageRequestVersion;
+    const status=document.getElementById('garage-list-status');status.textContent='Loading garages…';
+    const data=await queryApi('get_platform_garages',{query:document.getElementById('garage-search').value,status:applicationFilter.value,start:page.garages,page_length:PAGE_SIZE});
+    if (requestVersion !== garageRequestVersion) return;
+    renderGarages(data.rows);
+    const from=data.total?data.start+1:0;const to=Math.min(data.start+data.page_length,data.total);
+    document.getElementById('garage-page').textContent=`${from}–${to} of ${data.total}`;
+    document.getElementById('garage-prev').disabled=data.start===0;
+    document.getElementById('garage-next').disabled=data.start+data.page_length>=data.total;
+    status.textContent='';
+  }
+  async function loadMemberships() {
+    const status=document.getElementById('membership-list-status');status.textContent='Loading memberships…';
+    const data=await queryApi('get_platform_memberships',{query:document.getElementById('membership-search').value,status:document.getElementById('membership-status').value,membership_type:document.getElementById('membership-filter-type').value,start:page.memberships,page_length:PAGE_SIZE});
+    const memberships=document.getElementById('memberships');memberships.replaceChildren();
+    data.rows.forEach(member=>{
+      const row=document.createElement('tr');cell(row,member.user);cell(row,member.garage);
+      const statusCell=document.createElement('td');const memberStatus=optionSelect(memberStatuses,member.status);statusCell.appendChild(memberStatus);row.appendChild(statusCell);
+      const typeCell=document.createElement('td');const type=optionSelect(roleTypes,member.membership_type);typeCell.appendChild(type);row.appendChild(typeCell);
+      const saveCell=document.createElement('td');saveCell.appendChild(action('Save',()=>run('update_garage_membership',{membership_name:member.name,status:memberStatus.value,membership_type:type.value}),false,`Save membership changes for ${member.user}?`));row.appendChild(saveCell);memberships.appendChild(row);
+    });
+    if(!data.rows.length){const row=document.createElement('tr');const empty=cell(row,'No memberships match this search and filter.');empty.colSpan=5;memberships.appendChild(row);}
+    const from=data.total?data.start+1:0;const to=Math.min(data.start+data.page_length,data.total);
+    document.getElementById('membership-page').textContent=`${from}–${to} of ${data.total}`;
+    document.getElementById('membership-prev').disabled=data.start===0;
+    document.getElementById('membership-next').disabled=data.start+data.page_length>=data.total;
+    status.textContent='';
+  }
+  async function load() {
+    message.textContent = 'Loading…';
+    try {
+      const data = await api('get_platform_dashboard');
+      activeGarageOptions=data.active_garages;
+      const pendingCount=data.counts.pending_garages;
+      document.getElementById('pending-alert-text').textContent=pendingCount?`${pendingCount} garage ${pendingCount===1?'application is':'applications are'} waiting for review.`:'No pending applications. All current requests have been reviewed.';
+      document.querySelector('.pending-alert').classList.toggle('is-clear',!pendingCount);
+      const garageSelect=document.getElementById('membership-garage');garageSelect.replaceChildren();
+      data.active_garages.forEach(garage=>{const option=document.createElement('option');option.value=garage.name;option.textContent=garage.garage_name+' ('+garage.garage_id+')';garageSelect.appendChild(option);});
+      const typeSelect=document.getElementById('membership-type');typeSelect.replaceChildren();roleTypes.forEach(value=>{const option=document.createElement('option');option.value=value;option.textContent=value;typeSelect.appendChild(option);});
+      const counts = document.getElementById('counts'); counts.replaceChildren();
+      const countRows=[
+        ['Garage records',data.counts.garages,'blue','All recorded garages','▦'],
+        ['Pending applications',data.counts.pending_garages,'orange','Awaiting platform review','◷'],
+        ['Awaiting registration',data.counts.approved_garages,'purple','Approved applications','◇'],
+        ['Active garages',data.counts.active_garages,'green','Currently active','✓'],
+        ['Suspended garages',data.counts.suspended_garages,'red','Temporarily inactive','!'],
+        ['Memberships',data.counts.memberships,'blue',`${data.counts.pending_memberships} pending memberships`,'♙']
+      ];
+      countRows.forEach(([label,value,tone,note,icon]) => { const card=document.createElement('article');card.className='count-card';card.dataset.tone=tone;const mark=document.createElement('span');mark.className='metric-icon';mark.setAttribute('aria-hidden','true');mark.textContent=icon;const number=document.createElement('strong');number.textContent=String(value);const caption=document.createElement('span');caption.textContent=label;const detail=document.createElement('small');detail.textContent=note;card.append(mark,number,caption,detail);counts.appendChild(card); });
+      renderStatusReport(data.counts);
+      const lists=await Promise.allSettled([loadGarages(),loadMemberships()]);
+      if(lists[0].status==='rejected')document.getElementById('garage-list-status').textContent='Garage list could not be loaded. Refresh to retry; if this continues, the BG Garage schema may need synchronization.';
+      if(lists[1].status==='rejected')document.getElementById('membership-list-status').textContent='Membership list could not be loaded. Refresh to retry. No empty result is being shown as success.';
+      await loadSubscriptions().catch(()=>{});
+      message.textContent='';
+      return true;
+    } catch (error) { message.textContent='Platform overview could not be loaded. Check the signed-in account authorization or refresh to retry.';document.getElementById('counts').innerHTML='<p class="loading-state">Platform metrics are unavailable. Refresh to retry.</p>';document.getElementById('garage-status-report').innerHTML='<p class="loading-state">Status report is unavailable.</p>';document.getElementById('pending-alert-text').textContent='Pending request count is unavailable.';return false; }
+  }
+  function renderStatusReport(counts) {
+    const report=document.getElementById('garage-status-report');report.replaceChildren();
+    const statuses=[['Pending','pending_garages'],['Approved','approved_garages'],['Active','active_garages'],['Suspended','suspended_garages'],['Rejected','rejected_garages'],['Closed','closed_garages']];
+    statuses.forEach(([label,key])=>{
+      const count=Number(counts[key])||0;const total=Number(counts.garages)||0;const item=document.createElement('div');item.className='status-report-item';item.dataset.status=label;
+      const heading=document.createElement('div');heading.className='status-report-heading';const name=document.createElement('span');name.textContent=label;const value=document.createElement('strong');value.textContent=String(count);heading.append(name,value);
+      const track=document.createElement('div');track.className='status-track';track.setAttribute('role','progressbar');track.setAttribute('aria-label',`${label} garages`);track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax',String(total));track.setAttribute('aria-valuenow',String(count));const fill=document.createElement('div');fill.className='status-fill';fill.style.width=total?`${Math.min(100,count/total*100)}%`:'0%';track.appendChild(fill);item.append(heading,track);report.appendChild(item);
+    });
+  }
+  async function loadSubscriptions() {
+    const status=document.getElementById('subscription-load-message');
+    status.textContent='Loading subscription records…';
+    try {
+      const data=await subscriptionApi('get_platform_subscription_data',{query:document.getElementById('subscription-search').value,status:document.getElementById('subscription-status').value,start:page.subscriptions,page_length:PAGE_SIZE});
+      const planSelect=document.getElementById('subscription-plan');const selectedPlan=planSelect.value;planSelect.replaceChildren();
+      data.plans.filter(plan=>plan.status==='Active').forEach(plan=>{const option=document.createElement('option');option.value=plan.name;option.textContent=plan.name+' — '+plan.amount+' '+plan.currency+' / '+plan.billing_period;option.selected=option.value===selectedPlan;planSelect.appendChild(option);});
+      const garageSelect=document.getElementById('subscription-garage');const selectedGarage=garageSelect.value;garageSelect.replaceChildren();
+      activeGarageOptions.forEach(garage=>{const option=document.createElement('option');option.value=garage.name;option.textContent=garage.garage_name+' ('+garage.garage_id+')';option.selected=option.value===selectedGarage;garageSelect.appendChild(option);});
+      const plans=document.getElementById('subscription-plans');plans.replaceChildren();
+      data.plans.forEach(plan=>{const row=document.createElement('tr');cell(row,plan.name);cell(row,plan.status);cell(row,plan.billing_period);cell(row,String(plan.amount));cell(row,plan.currency);cell(row,plan.description);plans.appendChild(row);});
+      const subscriptions=document.getElementById('garage-subscriptions');subscriptions.replaceChildren();
+      data.subscriptions.forEach(item=>{
+        const row=document.createElement('tr');cell(row,item.garage);cell(row,item.plan);
+        const statusCell=document.createElement('td');statusCell.appendChild(optionSelect(['Pending','Active','Suspended','Cancelled','Expired'],item.status));row.appendChild(statusCell);
+        cell(row,item.start_date+' – '+item.end_date+' · '+item.billing_period);cell(row,String(item.agreed_amount)+' '+item.currency);cell(row,item.payment_status);cell(row,item.payment_reference||'');
+        const saveCell=document.createElement('td');saveCell.appendChild(action('Save status',()=>runSubscription('update_garage_subscription',{subscription_name:item.name,status:statusCell.firstChild.value}),false,`Change the status of the ${item.plan} subscription for ${item.garage}?`));row.appendChild(saveCell);subscriptions.appendChild(row);
+      });
+      if(!data.subscriptions.length){const row=document.createElement('tr');const empty=cell(row,'No subscriptions match this search and filter.');empty.colSpan=8;subscriptions.appendChild(row);}
+      const from=data.subscription_total?data.subscription_start+1:0;const to=Math.min(data.subscription_start+data.subscription_page_length,data.subscription_total);
+      document.getElementById('subscription-page').textContent=`${from}–${to} of ${data.subscription_total}`;
+      document.getElementById('subscription-prev').disabled=data.subscription_start===0;
+      document.getElementById('subscription-next').disabled=data.subscription_start+data.subscription_page_length>=data.subscription_total;
+      status.textContent=data.payment_notice;
+    } catch (error) {
+      status.textContent='Subscription records could not be loaded. Check Platform Super Admin authorization; no empty result is being shown as success.';
+      throw error;
+    }
+  }
+  async function run(method, payload) {
+    message.textContent='Saving…';
+    let result;
+    try { result=await api(method,payload); }
+    catch(error) { message.textContent=error.message||'The change was denied or could not be saved.';return false; }
+    const subject=method==='approve_garage_application'?'Application approved.':method==='reject_garage_application'?'Application rejected.':method==='resend_garage_registration_link'?'A new registration link was generated.':'Change saved.';
+    const emailStatus=result?.registration_email_status;
+    const successMessage=method==='approve_garage_application'||method==='resend_garage_registration_link'
+      ? emailStatus==='queued_not_delivery_verified'?`${subject} Email queued; delivery is not verified.`:emailStatus==='not_configured'?`${subject} No email was sent because outgoing email is not configured.`:`${subject} Email could not be queued. Check email configuration and resend the link.`
+      :subject;
+    const refreshed=await load();
+    message.textContent=refreshed?successMessage:subject+' The change was saved by the server, but the dashboard could not refresh.';
+    return true;
+  }
+  async function runSubscription(method,payload) { message.textContent='Saving subscription…';try{await subscriptionApi(method,payload);await load();message.textContent='Subscription change saved.';return true;}catch(error){message.textContent='Subscription change was denied or could not be saved.';return false;} }
+  document.getElementById('reload').addEventListener('click',load);
+  let garageSearchTimer, membershipSearchTimer;
+  let subscriptionSearchTimer;
+  function refreshGarageList(){page.garages=0;loadGarages().catch(()=>{document.getElementById('garage-list-status').textContent='Garage list could not be loaded. Refresh to try again.';});}
+  function refreshMembershipList(){page.memberships=0;loadMemberships().catch(()=>{document.getElementById('membership-list-status').textContent='Membership list could not be loaded. Refresh to try again.';});}
+  applicationFilter.addEventListener('change',refreshGarageList);
+  document.getElementById('garage-search').addEventListener('input',()=>{garageRequestVersion++;clearTimeout(garageSearchTimer);garageSearchTimer=setTimeout(refreshGarageList,250);});
+  document.getElementById('garage-prev').addEventListener('click',()=>{page.garages=Math.max(0,page.garages-PAGE_SIZE);loadGarages().catch(()=>{document.getElementById('garage-list-status').textContent='Garage list could not be loaded. Refresh to try again.';});});
+  document.getElementById('garage-next').addEventListener('click',()=>{page.garages+=PAGE_SIZE;loadGarages().catch(()=>{document.getElementById('garage-list-status').textContent='Garage list could not be loaded. Refresh to try again.';});});
+  document.getElementById('membership-search').addEventListener('input',()=>{clearTimeout(membershipSearchTimer);membershipSearchTimer=setTimeout(refreshMembershipList,250);});
+  document.getElementById('membership-status').addEventListener('change',refreshMembershipList);
+  document.getElementById('membership-filter-type').addEventListener('change',refreshMembershipList);
+  document.getElementById('membership-prev').addEventListener('click',()=>{page.memberships=Math.max(0,page.memberships-PAGE_SIZE);loadMemberships().catch(()=>{document.getElementById('membership-list-status').textContent='Membership list could not be loaded. Refresh to try again.';});});
+  document.getElementById('membership-next').addEventListener('click',()=>{page.memberships+=PAGE_SIZE;loadMemberships().catch(()=>{document.getElementById('membership-list-status').textContent='Membership list could not be loaded. Refresh to try again.';});});
+  function refreshSubscriptionList(){page.subscriptions=0;loadSubscriptions().catch(()=>{});}
+  document.getElementById('subscription-search').addEventListener('input',()=>{clearTimeout(subscriptionSearchTimer);subscriptionSearchTimer=setTimeout(refreshSubscriptionList,250);});
+  document.getElementById('subscription-status').addEventListener('change',refreshSubscriptionList);
+  document.getElementById('subscription-prev').addEventListener('click',()=>{page.subscriptions=Math.max(0,page.subscriptions-PAGE_SIZE);loadSubscriptions().catch(()=>{});});
+  document.getElementById('subscription-next').addEventListener('click',()=>{page.subscriptions+=PAGE_SIZE;loadSubscriptions().catch(()=>{});});
+  async function submitOnce(form, operation, confirmation) { const button=form.querySelector('button[type="submit"]');if(button.disabled||(confirmation&&!window.confirm(confirmation)))return;button.disabled=true;try{if(await operation())form.reset();}finally{button.disabled=false;} }
+  document.getElementById('add-membership').addEventListener('submit',event=>{event.preventDefault();const form=event.currentTarget;const payload=Object.fromEntries(new FormData(form).entries());submitOnce(form,()=>run('add_garage_membership',payload),`Add ${payload.user_email} as a pending ${payload.membership_type} member?`);});
+  document.getElementById('subscription-plan-form').addEventListener('submit',event=>{event.preventDefault();const form=event.currentTarget;const payload=Object.fromEntries(new FormData(form).entries());submitOnce(form,()=>runSubscription('save_subscription_plan',payload),`Save the ${payload.plan_name} subscription plan?`);});
+  document.getElementById('garage-subscription-form').addEventListener('submit',event=>{event.preventDefault();const form=event.currentTarget;const payload=Object.fromEntries(new FormData(form).entries());if(payload.agreed_amount==='')delete payload.agreed_amount;if(payload.currency==='')delete payload.currency;if(payload.billing_period==='')delete payload.billing_period;if(payload.payment_reference==='')delete payload.payment_reference;submitOnce(form,()=>runSubscription('create_garage_subscription',payload),'Create this pending garage subscription? Payment is not collected or verified by this action.');});
+  function reviewPending(){applicationFilter.value='Pending';refreshGarageList();document.getElementById('garage-management').scrollIntoView({behavior:'smooth'});}
+  document.getElementById('review-pending').addEventListener('click',reviewPending);
+  document.getElementById('quick-review').addEventListener('click',event=>{event.preventDefault();reviewPending();});
+  document.querySelectorAll('.platform-nav a').forEach(link=>link.addEventListener('click',()=>{document.querySelectorAll('.platform-nav a').forEach(item=>item.classList.toggle('active',item===link));}));
+  load();
+})();
+</script>
+{% endblock %}

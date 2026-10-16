@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token|e }}"><title>{{ title|e }}</title>
+  <link rel="stylesheet" href="/assets/bike_garage/css/garage_ui.css">
+  <style>
+    .expense-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}.expense-fields .wide{grid-column:1/-1}
+    .expense-fields label{display:block;font-weight:600;margin:16px 0 6px}.expense-fields input,.expense-fields select,.expense-fields textarea{box-sizing:border-box;width:100%;padding:10px;border:1px solid #cbd3dc;border-radius:6px;font:inherit}.expense-fields textarea{min-height:100px}
+    .expense-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.expense-notice{margin:12px 0;padding:12px;border-radius:6px}.expense-notice.error{background:#fff0ef;color:#8b1a12}.expense-notice.success{background:#e9f7ee;color:#14532d}
+    @media(max-width:560px){.expense-fields{grid-template-columns:1fr}.expense-fields .wide{grid-column:auto}}
+  </style>
+</head>
+<body class="bg-job-page"><main class="bg-job-shell">
+  <a class="bg-job-back" href="/garage">← Back to Dashboard</a>
+  <section class="bg-job-panel">
+    <h1>Record Expense</h1>
+    <p>This records an operational expense for your garage. It does not create an ERPNext payment or accounting entry.</p>
+    <div id="notice" class="expense-notice" role="status" aria-live="polite" hidden></div>
+    <form id="expense-form" class="expense-fields">
+      <div><label for="expense_type">Expense type</label><select id="expense_type" name="expense_type" required>
+        <option value="">Choose type</option><option>Rent</option><option>Electricity</option><option>Salary</option><option>Tools &amp; Equipment</option><option>Maintenance</option><option>Transport</option><option>Miscellaneous</option>
+      </select></div>
+      <div><label for="date">Date</label><input id="date" name="date" type="date" value="{{ today|e }}" required></div>
+      <div class="wide"><label for="description">Description</label><input id="description" name="description" maxlength="140" required></div>
+      <div><label for="amount">Amount</label><input id="amount" name="amount" type="number" min="0" step="0.01" required></div>
+      <div><label for="payment_mode">Payment mode</label><select id="payment_mode" name="payment_mode"><option>Cash</option><option>UPI</option><option>Card</option><option>NEFT</option></select></div>
+      <div class="wide"><label for="paid_to">Paid to (optional)</label><input id="paid_to" name="paid_to" maxlength="140"></div>
+      <div class="wide"><label for="notes">Notes (optional)</label><textarea id="notes" name="notes" maxlength="2000"></textarea></div>
+      <div class="wide expense-actions"><button id="submit" type="submit">Save Expense</button><a id="open-expense" class="button" hidden>Open Expense</a><a class="button" href="/garage">Cancel</a></div>
+    </form>
+  </section>
+</main>
+<script>
+const form=document.getElementById('expense-form'),notice=document.getElementById('notice'),submit=document.getElementById('submit');
+function createSubmissionKey(){const bytes=new Uint8Array(16);crypto.getRandomValues(bytes);bytes[6]=(bytes[6]&15)|64;bytes[8]=(bytes[8]&63)|128;const hex=Array.from(bytes,value=>value.toString(16).padStart(2,'0')).join('');return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`}
+const key=createSubmissionKey();
+function message(payload){try{const items=JSON.parse(payload._server_messages||'[]');if(items.length)return items.map(x=>{try{return JSON.parse(x).message||x}catch{return x}}).join(' ')}catch{}return 'Unable to save the expense. Check the details and try again.'}
+form.addEventListener('submit',async event=>{
+  event.preventDefault();notice.hidden=true;notice.className='expense-notice';submit.disabled=true;
+  try{
+    const body=new FormData(form);body.set('submission_key',key);
+    const response=await fetch('/api/method/bike_garage.bike_garage.api.expenses.create_expense',{method:'POST',credentials:'same-origin',headers:{'X-Frappe-CSRF-Token':document.querySelector('meta[name="csrf-token"]').content},body});
+    const payload=await response.json();if(!response.ok||payload.exc||payload.exc_type)throw new Error(message(payload));
+    notice.textContent=payload.message.duplicate?'This expense was already saved.':'Expense saved.';notice.className='expense-notice success';notice.hidden=false;
+    const link=document.getElementById('open-expense');link.href='/expense_view?name='+encodeURIComponent(payload.message.name);link.hidden=false;
+  }catch(error){notice.textContent=error.message||'Unable to save the expense. Check the details and try again.';notice.className='expense-notice error';notice.hidden=false}
+  finally{submit.disabled=false}
+});
+</script></body></html>

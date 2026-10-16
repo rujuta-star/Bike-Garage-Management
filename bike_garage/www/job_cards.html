@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token|e }}">
+  <title>Job Cards</title>
+  <style>
+    body{font:16px system-ui,sans-serif;margin:0;background:#f4f6f8;color:#202a35}main{max-width:1050px;margin:32px auto;padding:0 16px}
+    header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{margin:0 0 18px}a.button{background:#17324d;color:white;padding:10px 14px;border-radius:7px;text-decoration:none}
+    .panel{background:white;border-radius:10px;padding:16px;overflow-x:auto;box-shadow:0 2px 12px #12203312}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:left;padding:11px;border-bottom:1px solid #e7ebef}th{color:#566372}
+    .status{font-weight:600}.empty{padding:24px;color:#566372}.back{display:inline-block;margin:0 0 16px;color:#245f8b}
+  </style>
+  <link rel="stylesheet" href="/assets/bike_garage/css/garage_ui.css">
+</head>
+<body class="bg-job-page"><main class="bg-job-shell">
+  <a class="back bg-job-back" href="/garage">← Garage dashboard</a>
+  <header><h1>Job Cards</h1><a class="button" href="/job_card_new">Create Job Card</a></header>
+  <section class="panel bg-job-panel">
+    {% if job_cards %}
+    <table><thead><tr><th>Job Card</th><th>Customer</th><th>Bike</th><th>Status</th><th>Date</th><th></th></tr></thead><tbody>
+      {% for job in job_cards %}<tr>
+        <td>{{ job.name|e }}</td><td>{{ job.customer|e }}</td>
+        <td>{{ (job.registration_no or job.bike or "—")|e }}</td><td class="status">{{ job.status|e }}</td><td>{{ job.date|e }}</td>
+        <td><a href="/job_card_view?name={{ job.name|urlencode|e }}">View</a></td>
+      </tr>{% endfor %}
+    </tbody></table>
+    {% else %}<div class="empty">No Job Cards found for this garage.</div>{% endif %}
+  </section>
+</main></body></html>

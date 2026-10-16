@@ -1,0 +1,38 @@
+{
+ "actions": [],
+ "autoname": "field:customer_name",
+ "creation": "2026-06-26 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": ["customer_name","phone","email","address","col_break1","gender","date_of_birth","section_break1","notes","garage","erpnext_customer"],
+ "fields": [
+  {"fieldname": "customer_name", "fieldtype": "Data", "label": "Customer Name", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "phone", "fieldtype": "Data", "label": "Phone Number", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "email", "fieldtype": "Data", "label": "Email", "options": "Email"},
+  {"fieldname": "address", "fieldtype": "Small Text", "label": "Address"},
+  {"fieldname": "col_break1", "fieldtype": "Column Break"},
+  {"fieldname": "gender", "fieldtype": "Select", "label": "Gender", "options": "\nMale\nFemale\nOther"},
+  {"fieldname": "date_of_birth", "fieldtype": "Date", "label": "Date of Birth"},
+  {"fieldname": "section_break1", "fieldtype": "Section Break", "label": "Notes"},
+  {"fieldname": "notes", "fieldtype": "Small Text", "label": "Notes"},
+  {"fieldname": "garage", "fieldtype": "Link", "label": "Garage", "options": "BG Garage"},
+  {"fieldname": "erpnext_customer", "fieldtype": "Link", "label": "ERPNext Customer Mapping", "options": "Customer", "hidden": 1}
+ ],
+ "links": [],
+ "modified": "2026-06-26 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bike Garage",
+ "name": "BG Customer",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "delete": 1, "email": 1, "export": 1, "print": 1, "read": 1, "report": 1, "role": "System Manager", "share": 1, "write": 1},
+  {"create": 1, "delete": 1, "email": 1, "export": 1, "print": 1, "read": 1, "report": 1, "role": "Platform Super Admin", "share": 1, "write": 1},
+  {"create": 1, "delete": 0, "read": 1, "report": 1, "role": "All", "write": 1}
+ ],
+ "search_fields": "phone,email",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

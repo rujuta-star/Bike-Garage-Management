@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token|e }}"><title>{{ title|e }}</title>
+  <link rel="stylesheet" href="/assets/bike_garage/css/garage_ui.css">
+  <style>
+    .movement-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}.movement-fields .wide{grid-column:1/-1}
+    .movement-fields label{display:block;font-weight:600;margin:16px 0 6px}.movement-fields input,.movement-fields select,.movement-fields textarea{box-sizing:border-box;width:100%;padding:10px;border:1px solid #cbd3dc;border-radius:6px;font:inherit}.movement-fields textarea{min-height:84px}
+    .movement-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.movement-notice{margin:12px 0;padding:12px;border-radius:6px}.movement-notice.error{background:#fff0ef;color:#8b1a12}.movement-notice.success{background:#e9f7ee;color:#14532d}.movement-history{width:100%;border-collapse:collapse}.movement-history th,.movement-history td{text-align:left;padding:9px;border-bottom:1px solid #e3e7eb;font-size:13px;vertical-align:top}.movement-history-wrap{overflow:auto}.movement-policy{line-height:1.6;color:#536171}
+    @media(max-width:640px){.movement-fields{grid-template-columns:1fr}.movement-fields .wide{grid-column:auto}.movement-history{min-width:760px}}
+  </style>
+</head>
+<body class="bg-job-page"><main class="bg-job-shell">
+  <a class="bg-job-back" href="/garage">← Back to Dashboard</a>
+  <section class="bg-job-panel">
+    <h1>Receive or Adjust Stock</h1>
+    <p class="movement-policy">This records operational quantities for your garage. Receipt cost and supplier details are retained as references only; this does not create an ERPNext purchase, payable, or inventory valuation. Stock cannot go below zero. Submitted movements are reversed through cancellation and remain in history.</p>
+    <div id="notice" class="movement-notice" role="status" aria-live="polite" hidden></div>
+    <form id="movement-form" class="movement-fields">
+      <div><label for="movement_type">Movement</label><select id="movement_type" name="movement_type" required><option>Purchase Receipt</option><option>Positive Adjustment</option><option>Negative Adjustment</option><option>Supplier Return</option></select></div>
+      <div><label for="part">Spare part</label><select id="part" name="part" required><option value="">Loading parts…</option></select></div>
+      <div><label for="qty">Quantity</label><input id="qty" name="qty" type="number" min="0.000001" step="any" required></div>
+      <div id="cost-field"><label for="unit_cost">Unit cost (receipt reference)</label><input id="unit_cost" name="unit_cost" type="number" min="0" step="0.01"></div>
+      <div id="supplier-field"><label for="supplier">Supplier</label><input id="supplier" name="supplier" maxlength="140"></div>
+      <div id="reference-field"><label for="reference">Purchase / return reference</label><input id="reference" name="reference" maxlength="140"></div>
+      <div id="receipt-field" class="wide" hidden><label for="against_receipt">Original receipt</label><select id="against_receipt" name="against_receipt"><option value="">Choose receipt</option></select></div>
+      <div class="wide"><label for="reason">Reason</label><textarea id="reason" name="reason" maxlength="2000" required></textarea></div>
+      <div class="wide movement-actions"><button id="submit" type="submit" disabled>Record Movement</button><a class="button" href="/garage">Back to Dashboard</a></div>
+    </form>
+  </section>
+  <section class="bg-job-panel" style="margin-top:22px"><h2>Stock Movement History</h2><div id="history" class="movement-history-wrap" aria-live="polite">Loading history…</div></section>
+</main>
+<script>
+const csrf=document.querySelector('meta[name="csrf-token"]').content;
+const form=document.getElementById('movement-form'),notice=document.getElementById('notice'),submit=document.getElementById('submit');
+let submissionKey='{{ submission_key|e }}';
+const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const endpoint='/api/method/bike_garage.bike_garage.api.inventory.';
+function updateMovementFields(){
+  const type=document.getElementById('movement_type').value;
+  const receipt=type==='Purchase Receipt',supplierReturn=type==='Supplier Return';
+  document.getElementById('cost-field').hidden=!receipt;
+  document.getElementById('unit_cost').required=receipt;
+  document.getElementById('supplier-field').hidden=!receipt&&!supplierReturn;
+  document.getElementById('reference-field').hidden=!receipt&&!supplierReturn;
+  document.getElementById('supplier').required=supplierReturn;
+  document.getElementById('reference').required=supplierReturn;
+  document.getElementById('receipt-field').hidden=!supplierReturn;
+  document.getElementById('against_receipt').required=supplierReturn;
+}
+async function loadMovementData(){
+  const [optionsResponse,historyResponse]=await Promise.all([fetch(endpoint+'get_stock_movement_options',{credentials:'same-origin'}),fetch(endpoint+'get_stock_movement_history',{credentials:'same-origin'})]);
+  const optionsPayload=await optionsResponse.json(),historyPayload=await historyResponse.json();
+  if(!optionsResponse.ok||optionsPayload.exc||optionsPayload.exc_type||!optionsPayload.message?.parts)throw new Error('Unable to load inventory options.');
+  if(!historyResponse.ok||historyPayload.exc||historyPayload.exc_type||!Array.isArray(historyPayload.message))throw new Error('Unable to load stock history.');
+  const partSelect=document.getElementById('part');
+  partSelect.innerHTML='<option value="">Choose spare part</option>'+optionsPayload.message.parts.map(part=>`<option value="${esc(part.name)}">${esc(part.part_name)} — ${Number(part.stock_qty)||0} ${esc(part.unit||'Pcs')} available</option>`).join('');
+  const receiptSelect=document.getElementById('against_receipt');
+  receiptSelect.innerHTML='<option value="">Choose receipt</option>'+optionsPayload.message.receipts.map(row=>`<option value="${esc(row.name)}">${esc(row.name)} — ${esc(row.part)} — ${Number(row.qty)||0}</option>`).join('');
+  submit.disabled=!optionsPayload.message.parts.length;
+  renderHistory(historyPayload.message);
+}
+function renderHistory(rows){
+  const region=document.getElementById('history');
+  if(!rows.length){region.textContent='No stock movements recorded yet.';return;}
+  region.innerHTML=`<table class="movement-history"><thead><tr><th>Date</th><th>Movement</th><th>Part</th><th>Qty</th><th>Stock</th><th>Reference / reason</th><th>Status / action</th></tr></thead><tbody>${rows.map(row=>{
+    const status=row.docstatus===1?'Submitted':row.docstatus===2?'Reversed':'Draft';
+    const before=row.docstatus===2?row.reversal_stock_before:row.stock_before,after=row.docstatus===2?row.reversal_stock_after:row.stock_after;
+    const action=row.docstatus===1&&!row.source_document?`<button type="button" data-cancel="${esc(row.name)}">Reverse</button>`:'';
+    return `<tr><td>${esc(row.creation||'')}</td><td>${esc(row.movement_type)}</td><td>${esc(row.part)}</td><td>${Number(row.qty)||0}</td><td>${before??'—'} → ${after??'—'}</td><td>${esc([row.supplier,row.reference,row.against_receipt,row.source_doctype,row.source_document,row.source_event,row.reason,row.reversal_reason].filter(Boolean).join(' · '))}</td><td>${status} ${action}</td></tr>`;
+  }).join('')}</tbody></table>`;
+}
+document.getElementById('movement_type').addEventListener('change',updateMovementFields);
+form.addEventListener('submit',async event=>{
+  event.preventDefault();notice.hidden=true;submit.disabled=true;let movementCreated=false;
+  try{
+    const body=new FormData(form);body.set('submission_key',submissionKey);
+    const response=await fetch(endpoint+'create_stock_movement',{method:'POST',credentials:'same-origin',headers:{'X-Frappe-CSRF-Token':csrf},body});
+    const payload=await response.json();if(!response.ok||payload.exc||payload.exc_type)throw new Error('Unable to record movement. Check stock, authorization, and receipt details.');
+    movementCreated=true;notice.textContent=`Stock movement ${payload.message.name} recorded. Current stock: ${payload.message.stock_qty}.`;notice.className='movement-notice success';notice.hidden=false;
+    submissionKey=crypto.randomUUID();form.reset();updateMovementFields();
+    await loadMovementData();
+  }catch(error){notice.textContent=movementCreated?'Movement was recorded, but the list could not refresh.':error.message;notice.className='movement-notice error';notice.hidden=false;submit.disabled=false;}
+});
+document.getElementById('history').addEventListener('click',async event=>{
+  const button=event.target.closest('[data-cancel]');if(!button)return;
+  const reason=prompt('Why is this stock movement being reversed?');if(!reason?.trim())return;
+  if(!confirm('Reverse this movement? Stock will change and the reversal will remain in movement history.'))return;
+  button.disabled=true;notice.hidden=true;
+  try{
+    const response=await fetch(endpoint+'cancel_stock_movement',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-Frappe-CSRF-Token':csrf},body:JSON.stringify({name:button.dataset.cancel,reason:reason.trim()})});
+    const payload=await response.json();if(!response.ok||payload.exc||payload.exc_type)throw new Error('This movement could not be reversed. Check current stock and related supplier returns.');
+    notice.textContent=`Stock movement ${payload.message.name} reversed.`;notice.className='movement-notice success';notice.hidden=false;await loadMovementData();
+  }catch(error){notice.textContent=error.message;notice.className='movement-notice error';notice.hidden=false;button.disabled=false;}
+});
+updateMovementFields();loadMovementData().catch(error=>{document.getElementById('history').textContent=error.message;notice.textContent=error.message;notice.className='movement-notice error';notice.hidden=false;});
+</script></body></html>

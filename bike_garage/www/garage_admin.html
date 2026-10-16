@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{{ garage_name | e }} · Admin</title>
+  <style>
+    :root{font-family:Inter,"Segoe UI",system-ui,sans-serif;color:#172033;background:#f4f6fa;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0}button,a{font:inherit}.shell{min-height:100vh;display:grid;grid-template-columns:248px minmax(0,1fr)}
+    aside{background:#1c2038;color:#e7e9f4;padding:24px 15px;display:flex;flex-direction:column;gap:22px}
+    .brand{padding:5px 12px 18px;border-bottom:1px solid #383b51}.brand strong{display:block;font-size:17px;color:#fff}.brand span{display:block;color:#aeb3c9;font-size:12px;margin-top:5px}
+    .nav-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#9298b2;padding:0 12px;margin:0 0 7px}
+    nav{display:grid;gap:4px}nav a{color:#c5c9d9;text-decoration:none;padding:11px 12px;border-radius:8px;font-size:13px}nav a:hover,nav a.active{background:#303550;color:#fff}nav a.active{box-shadow:inset 3px 0 #e94560}
+    .account{margin-top:auto;border-top:1px solid #383b51;padding:16px 12px 0;color:#aeb3c9;font-size:12px;overflow-wrap:anywhere}.account a{color:#fff;display:inline-block;margin-top:10px}
+    main{min-width:0;padding:30px clamp(18px,4vw,54px) 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:27px}.eyebrow{color:#778098;font-size:12px;font-weight:600}.top h1{font-size:26px;margin:5px 0 0;letter-spacing:-.5px}.workspace-link{background:#fff;border:1px solid #dce1eb;color:#263049;border-radius:8px;text-decoration:none;padding:10px 14px;font-size:13px;font-weight:600}
+    .panel{display:none}.panel.active{display:block}.section-head{display:flex;justify-content:space-between;align-items:end;margin:0 0 17px;gap:12px}.section-head h2{font-size:19px;margin:0}.section-head p{font-size:13px;color:#788198;margin:5px 0 0}
+    .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}.metric,.box{background:#fff;border:1px solid #e6e9f0;border-radius:12px;box-shadow:0 3px 12px #17203308}.metric{padding:18px}.metric span{color:#7e879c;font-size:12px}.metric strong{display:block;font-size:27px;margin-top:12px;font-weight:700}.metric small{display:block;color:#9098a9;font-size:11px;margin-top:5px}
+    .grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,.8fr);gap:15px}.box{padding:18px;min-width:0}.box h3{font-size:14px;margin:0 0 14px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}th{text-align:left;color:#788198;font-size:10px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}th,td{padding:11px 9px;border-bottom:1px solid #edf0f5}td{color:#30394d}.empty{padding:20px;color:#81899c;font-size:13px;text-align:center}.notice{padding:14px;border-radius:8px;background:#f4f6fa;color:#6d768a;font-size:13px;line-height:1.6}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions a{background:#fff;border:1px solid #dce1eb;color:#39445b;text-decoration:none;border-radius:7px;padding:8px 10px;font-size:12px}.actions a:hover{border-color:#e94560;color:#c92e4b}.chart{height:190px;display:flex;align-items:end;gap:8px;padding:15px 4px 23px;border-bottom:1px solid #e8ebf1}.bar-col{height:100%;flex:1;display:flex;align-items:center;justify-content:end;flex-direction:column;gap:5px;min-width:12px}.bar{width:min(100%,24px);min-height:2px;background:#e94560;border-radius:4px 4px 0 0}.bar-label{font-size:9px;color:#838b9e}.alert{color:#9a5c00;background:#fff8e7;border:1px solid #f2e4bd;padding:12px;border-radius:8px;font-size:12px;line-height:1.55}
+    @media(max-width:900px){.shell{grid-template-columns:205px minmax(0,1fr)}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}
+    @media(max-width:620px){.shell{display:block}aside{padding:14px;gap:12px}.brand{padding:5px 8px 12px}nav{display:flex;overflow:auto}nav a{white-space:nowrap;padding:9px 10px}.nav-label{padding:0 8px}aside>section:nth-of-type(2){display:none}.account{display:none}main{padding:22px 15px}.top{align-items:start;flex-direction:column}.cards{gap:9px}.metric{padding:14px}.metric strong{font-size:22px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand"><strong>🏍 Bike Garage</strong><span>Admin workspace · {{ garage_name | e }}</span></div>
+      <section><p class="nav-label">Workspace</p><nav aria-label="Admin dashboard">
+        <a class="active" href="#overview" data-panel="overview">Overview</a>
+        <a href="#customers" data-panel="customers">Customers</a>
+        <a href="#vehicles" data-panel="vehicles">Vehicles / Bikes</a>
+        <a href="#jobs" data-panel="jobs">Job Cards</a>
+        <a href="#parts" data-panel="parts">Spare Parts</a>
+        {% if can_view_financials %}<a href="#billing" data-panel="billing">Billing</a><a href="#reports" data-panel="reports">Reports</a>{% endif %}
+      </nav></section>
+      <section><p class="nav-label">Administration</p><nav aria-label="Administration">
+        <a href="#access" data-panel="access">Access Control</a><a href="#settings" data-panel="settings">Settings</a>
+      </nav></section>
+      <div class="account">Signed in as<br><strong>{{ user | e }}</strong><br><a href="/logout">Sign out</a></div>
+    </aside>
+    <main>
+      <header class="top"><div><div class="eyebrow">GARAGE ADMINISTRATION</div><h1 id="page-title">Overview</h1></div><a class="workspace-link" href="/garage">Open Garage Operations</a></header>
+
+      <section class="panel active" id="panel-overview" aria-labelledby="page-title">
+        <div class="section-head"><div><h2>Workshop overview</h2><p>Live figures for your active garage.</p></div></div>
+        <div class="cards">
+          <article class="metric"><span>Active Job Cards</span><strong id="active-jobs">—</strong><small>Pending, in progress, or waiting for parts</small></article>
+          <article class="metric"><span>Customers</span><strong id="customer-count">—</strong><small>Records in this garage</small></article>
+          <article class="metric"><span>Spare Parts</span><strong id="part-count">—</strong><small>Inventory catalog items</small></article>
+          {% if can_view_financials %}<article class="metric"><span>Today's Collections</span><strong id="today-revenue">—</strong><small>Recorded payments</small></article>{% endif %}
+        </div>
+        <div class="grid"><article class="box"><h3>Recent Job Cards</h3><div class="table-wrap" id="recent-jobs" aria-live="polite"><div class="empty">Loading garage records…</div></div></article>
+          <article class="box"><h3>Low Stock</h3><div class="table-wrap" id="low-stock" aria-live="polite"><div class="empty">Loading inventory…</div></div></article></div>
+        <div class="box" style="margin-top:15px"><h3>Quick access</h3><div class="actions"><a href="/customer_new">Add customer</a><a href="/bike_new">Add bike</a><a href="/job_card_new">Create job card</a><a href="/part_new">Add spare part</a></div></div>
+      </section>
+
+      <section class="panel" id="panel-customers"><div class="section-head"><div><h2>Customers</h2><p>Customer records belonging to this garage.</p></div><div class="actions"><a href="/customer_new">Add customer</a></div></div><article class="box"><div class="table-wrap" id="customers-list"><div class="empty">Loading…</div></div></article></section>
+      <section class="panel" id="panel-vehicles"><div class="section-head"><div><h2>Vehicles / Bikes</h2><p>Registered bikes and their customers.</p></div><div class="actions"><a href="/bike_new">Add bike</a></div></div><article class="box"><div class="table-wrap" id="bikes-list"><div class="empty">Loading…</div></div></article></section>
+      <section class="panel" id="panel-jobs"><div class="section-head"><div><h2>Job Cards</h2><p>Service work recorded for this garage.</p></div><div class="actions"><a href="/job_card_new">Create job card</a></div></div><article class="box"><div class="table-wrap" id="jobs-list"><div class="empty">Loading…</div></div></article></section>
+      <section class="panel" id="panel-parts"><div class="section-head"><div><h2>Spare Parts</h2><p>Inventory and stock levels for this garage.</p></div><div class="actions"><a href="/part_new">Add spare part</a></div></div><article class="box"><div class="table-wrap" id="parts-list"><div class="empty">Loading…</div></div></article></section>
+
+      {% if can_view_financials %}
+      <section class="panel" id="panel-billing"><div class="section-head"><div><h2>Billing</h2><p>Recorded payment totals; financial access is permission checked by the server.</p></div></div>
+        <div class="cards"><article class="metric"><span>Outstanding</span><strong id="outstanding">—</strong><small>Unpaid and partially paid job cards</small></article><article class="metric"><span>Month to date collections</span><strong id="month-revenue">—</strong><small>Payments recorded in the current month</small></article><article class="metric"><span>Recorded expenses</span><strong id="month-expenses">—</strong><small>Current month</small></article></div>
+        <article class="box"><h3>Monthly collections</h3><div class="chart" id="billing-chart" aria-label="Monthly collections chart"></div></article>
+      </section>
+      <section class="panel" id="panel-reports"><div class="section-head"><div><h2>Reports</h2><p>Garage-scoped job card parts summary.</p></div></div><article class="box"><div class="table-wrap" id="report-list"><div class="empty">Loading report…</div></div></article></section>
+      {% endif %}
+
+      <section class="panel" id="panel-access"><div class="section-head"><div><h2>Access Control</h2><p>Membership and permissions overview.</p></div></div><div class="alert">Garage membership changes and Frappe role assignments are not available in this workspace. Membership administration remains restricted to the existing authorized Platform Super Admin workflow.</div></section>
+      <section class="panel" id="panel-settings"><div class="section-head"><div><h2>Settings</h2><p>Garage configuration.</p></div></div><div class="notice">No Manager-safe garage settings API is currently available. This page does not expose settings controls that could bypass server-side permissions.</div></section>
+      <p id="page-error" role="alert" class="alert" hidden></p>
+    </main>
+  </div>
+  <script>
+    const canViewFinancials={{ "true" if can_view_financials else "false" }};
+    const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const money=value=>new Intl.NumberFormat(undefined,{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number(value)||0);
+    async function api(path){const response=await fetch(path,{credentials:'same-origin',headers:{'Accept':'application/json'}});const body=await response.json();if(!response.ok||body.exc||body.exc_type)throw new Error('The requested garage data could not be loaded.');return body.data??body.message;}
+    function table(headers,rows,empty){return rows.length?`<table><thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`:`<div class="empty">${esc(empty)}</div>`;}
+    function row(values){return `<tr>${values.map(value=>`<td>${value}</td>`).join('')}</tr>`;}
+    async function loadOverview(){const stats=await api('/api/method/bike_garage.bike_garage.api.dashboard.get_dashboard_stats');document.getElementById('active-jobs').textContent=stats.active_jobs;document.getElementById('customer-count').textContent=stats.total_customers;document.getElementById('part-count').textContent=stats.total_parts;if(canViewFinancials)document.getElementById('today-revenue').textContent=money(stats.today_revenue);
+      document.getElementById('recent-jobs').innerHTML=table(['Job Card','Customer','Registration','Status'],(stats.recent_jobs||[]).map(j=>row([`<a href="/job_card_view?name=${encodeURIComponent(j.name)}">${esc(j.name)}</a>`,esc(j.customer),esc(j.registration_no),esc(j.status)])),'No job cards found.');
+      document.getElementById('low-stock').innerHTML=table(['Part','Available'],(stats.low_stock||[]).map(p=>row([esc(p.part_name),esc(p.stock_qty)])),'No low stock items.');if(canViewFinancials)document.getElementById('outstanding').textContent=money(stats.outstanding);
+    }
+    async function loadCustomers(){const records=await api('/api/resource/BG%20Customer?fields=["name","customer_name","phone","email"]&limit_page_length=200&order_by=creation%20desc');document.getElementById('customers-list').innerHTML=table(['Customer','Phone','Email',''],records.map(c=>row([`<a href="/customer_view?name=${encodeURIComponent(c.name)}">${esc(c.customer_name||c.name)}</a>`,esc(c.phone),esc(c.email),`<a href="/customer_view?name=${encodeURIComponent(c.name)}">View</a>`])),'No customers found.');}
+    async function loadBikes(){const records=await api('/api/resource/BG%20Bike?fields=["name","registration_no","bike_brand","bike_model","customer","last_service_date"]&limit_page_length=400&order_by=modified%20desc');document.getElementById('bikes-list').innerHTML=table(['Registration','Bike','Customer','Last Service'],records.map(b=>row([`<a href="/bike_view?name=${encodeURIComponent(b.name)}">${esc(b.registration_no||b.name)}</a>`,esc([b.bike_brand,b.bike_model].filter(Boolean).join(' ')),esc(b.customer),esc(b.last_service_date)])),'No bikes found.');}
+    async function loadJobs(){const records=await api('/api/method/bike_garage.bike_garage.api.garage_job_cards.get_job_cards');document.getElementById('jobs-list').innerHTML=table(['Job Card','Customer','Registration','Status',...(canViewFinancials?['Amount']:[])],records.map(j=>row([`<a href="/job_card_view?name=${encodeURIComponent(j.name)}">${esc(j.name)}</a>`,esc(j.customer),esc(j.registration_no),esc(j.status),...(canViewFinancials?[money(j.grand_total)]:[])])),'No job cards found.');}
+    async function loadParts(){const records=await api('/api/resource/BG%20Spare%20Part?fields=["name","part_name","category","stock_qty","min_stock_qty"]&limit_page_length=200');document.getElementById('parts-list').innerHTML=table(['Part','Category','Stock','Status'],records.map(p=>row([esc(p.part_name||p.name),esc(p.category),esc(p.stock_qty),esc(Number(p.stock_qty)<=Number(p.min_stock_qty)?'Low stock':'In stock')])),'No spare parts found.');}
+    async function loadBilling(){const [monthly,pnl]=await Promise.all([api('/api/method/bike_garage.bike_garage.api.dashboard.get_monthly_revenue'),api('/api/method/bike_garage.bike_garage.api.dashboard.get_profit_loss')]);document.getElementById('month-revenue').textContent=money(pnl.revenue);document.getElementById('month-expenses').textContent=money(pnl.expenses);const totals=Array(12).fill(0);monthly.forEach(item=>{if(Number(item.year)===new Date().getFullYear()&&item.month>=1&&item.month<=12)totals[item.month-1]=Number(item.total)||0;});const max=Math.max(...totals,1);document.getElementById('billing-chart').innerHTML=totals.map((amount,index)=>`<div class="bar-col" title="${esc(money(amount))}"><div class="bar" style="height:${Math.max(amount/max*100,2)}%"></div><span class="bar-label">${new Date(2000,index,1).toLocaleString(undefined,{month:'short'})}</span></div>`).join('');}
+    async function loadReports(){const records=await api('/api/method/bike_garage.bike_garage.api.reports.get_job_card_part_report');document.getElementById('report-list').innerHTML=table(['Part','Quantity','Amount'],records.map(r=>row([esc(r.part),esc(r.qty),money(r.amount)])),'No report rows found.');}
+    const loaders={overview:loadOverview,customers:loadCustomers,vehicles:loadBikes,jobs:loadJobs,parts:loadParts,billing:loadBilling,reports:loadReports};
+    async function openPanel(name){document.querySelectorAll('.panel').forEach(panel=>panel.classList.toggle('active',panel.id===`panel-${name}`));document.querySelectorAll('[data-panel]').forEach(link=>link.classList.toggle('active',link.dataset.panel===name));document.getElementById('page-title').textContent=document.querySelector(`[data-panel="${name}"]`)?.textContent.trim()||'Overview';if(loaders[name]){try{await loaders[name]();}catch(error){const target=document.querySelector(`#panel-${name} .table-wrap`)||document.getElementById('page-error');if(target){target.textContent=error.message;target.classList.add('empty');target.hidden=false;}}}}
+    document.querySelectorAll('[data-panel]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();history.replaceState(null,'',link.getAttribute('href'));openPanel(link.dataset.panel);}));
+    openPanel(location.hash.slice(1)||'overview');
+  </script>
+</body>
+</html>

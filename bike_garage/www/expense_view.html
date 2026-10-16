@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ title|e }}</title>
+<link rel="stylesheet" href="/assets/bike_garage/css/garage_ui.css">
+<style>.expense-detail{display:grid;grid-template-columns:minmax(130px,190px) 1fr;gap:12px}.expense-detail dt{font-weight:600;color:#566372}.expense-detail dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.expense-detail .notes{grid-column:1/-1}@media(max-width:520px){.expense-detail{grid-template-columns:1fr;gap:4px}.expense-detail dd{margin-bottom:12px}}</style>
+</head>
+<body class="bg-job-page"><main class="bg-job-shell"><a class="bg-job-back" href="/garage">← Back to Dashboard</a>
+<section class="bg-job-panel"><h1>Expense {{ expense.name|e }}</h1><dl class="expense-detail">
+<dt>Date</dt><dd>{{ expense.date|e }}</dd><dt>Type</dt><dd>{{ expense.expense_type|e }}</dd><dt>Description</dt><dd>{{ expense.description|e }}</dd><dt>Amount</dt><dd>{{ expense.amount|e }}</dd><dt>Payment mode</dt><dd>{{ expense.payment_mode|e }}</dd>
+{% if expense.paid_to %}<dt>Paid to</dt><dd>{{ expense.paid_to|e }}</dd>{% endif %}{% if expense.notes %}<dt class="notes">Notes</dt><dd class="notes">{{ expense.notes|e }}</dd>{% endif %}
+</dl><p>This is an operational record and does not by itself confirm an ERPNext accounting or payment entry.</p></section></main></body></html>

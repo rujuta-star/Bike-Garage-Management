@@ -1,0 +1,21 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-13 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["user", "garage", "status", "membership_type"],
+ "fields": [
+  {"fieldname": "user", "fieldtype": "Link", "label": "Frappe User", "options": "User", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "garage", "fieldtype": "Link", "label": "BG Garage", "options": "BG Garage", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "status", "fieldtype": "Select", "label": "Membership Status", "options": "Pending\nActive\nSuspended", "default": "Pending", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "membership_type", "fieldtype": "Select", "label": "Membership Type", "options": "Owner\nManager\nService Advisor\nTechnician\nInventory Manager\nAccountant", "reqd": 1}
+ ],
+ "links": [],
+ "modified": "2026-10-13 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bike Garage",
+ "name": "BG Garage Membership",
+ "owner": "Administrator",
+ "permissions": []
+}

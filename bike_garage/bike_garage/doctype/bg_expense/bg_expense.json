@@ -1,0 +1,33 @@
+{
+ "actions": [],
+ "autoname": "format:EXP-{####}",
+ "creation": "2026-06-26 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["expense_type","description","date","col_break1","amount","payment_mode","paid_to","notes","submission_key","garage"],
+ "fields": [
+  {"fieldname": "expense_type", "fieldtype": "Select", "label": "Expense Type", "options": "Rent\nElectricity\nSalary\nTools & Equipment\nMaintenance\nTransport\nMiscellaneous", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "description", "fieldtype": "Data", "label": "Description", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "date", "fieldtype": "Date", "label": "Date", "default": "Today", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "col_break1", "fieldtype": "Column Break"},
+  {"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "payment_mode", "fieldtype": "Select", "label": "Payment Mode", "options": "Cash\nUPI\nCard\nNEFT", "default": "Cash"},
+  {"fieldname": "paid_to", "fieldtype": "Data", "label": "Paid To"},
+  {"fieldname": "notes", "fieldtype": "Small Text", "label": "Notes"},
+  {"fieldname": "submission_key", "fieldtype": "Data", "label": "Submission Key", "hidden": 1, "read_only": 1},
+  {"fieldname": "garage", "fieldtype": "Link", "label": "Garage", "options": "BG Garage"}
+ ],
+ "links": [],
+ "modified": "2026-06-26 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bike Garage",
+ "name": "BG Expense",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "delete": 1, "read": 1, "report": 1, "role": "System Manager", "write": 1},
+  {"create": 1, "delete": 1, "read": 1, "report": 1, "role": "Platform Super Admin", "write": 1},
+  {"create": 1, "read": 1, "role": "All", "write": 1}
+ ],
+ "sort_field": "date",
+ "sort_order": "DESC"
+}

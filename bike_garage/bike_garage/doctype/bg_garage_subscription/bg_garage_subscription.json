@@ -1,0 +1,30 @@
+{
+ "actions": [],
+ "autoname": "format:BGSUB-{####}",
+ "doctype": "DocType",
+ "name": "BG Garage Subscription",
+ "engine": "InnoDB",
+ "field_order": ["garage", "plan", "status", "active_garage", "section_break_terms", "start_date", "end_date", "billing_period", "agreed_amount", "currency", "section_break_payment", "payment_status", "payment_reference"],
+ "fields": [
+  {"fieldname": "garage", "fieldtype": "Link", "label": "Garage", "options": "BG Garage", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "plan", "fieldtype": "Link", "label": "Plan", "options": "BG Subscription Plan", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "status", "fieldtype": "Select", "label": "Subscription Status", "options": "Pending\nActive\nSuspended\nCancelled\nExpired", "default": "Pending", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "active_garage", "fieldtype": "Link", "label": "Active Garage Key", "options": "BG Garage", "hidden": 1, "read_only": 1, "unique": 1},
+  {"fieldname": "section_break_terms", "fieldtype": "Section Break", "label": "Agreed Terms"},
+  {"fieldname": "start_date", "fieldtype": "Date", "label": "Start Date", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "end_date", "fieldtype": "Date", "label": "End Date", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "billing_period", "fieldtype": "Select", "label": "Billing Period", "options": "Monthly\nQuarterly\nYearly", "reqd": 1},
+  {"fieldname": "agreed_amount", "fieldtype": "Currency", "label": "Agreed Amount", "reqd": 1, "default": 0, "in_list_view": 1},
+  {"fieldname": "currency", "fieldtype": "Link", "label": "Currency", "options": "Currency", "reqd": 1},
+  {"fieldname": "section_break_payment", "fieldtype": "Section Break", "label": "Payment Tracking"},
+  {"fieldname": "payment_status", "fieldtype": "Select", "label": "Payment Status", "options": "Pending\nUnverified", "default": "Pending", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "payment_reference", "fieldtype": "Data", "label": "Unverified Payment Reference", "length": 140}
+ ],
+ "module": "Bike Garage",
+ "permissions": [
+  {"create": 1, "read": 1, "report": 1, "role": "Platform Super Admin", "write": 1}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

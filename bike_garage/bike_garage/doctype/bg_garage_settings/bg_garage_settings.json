@@ -1,0 +1,34 @@
+{
+ "actions": [],
+ "creation": "2026-06-26 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["garage_name","owner_name","phone","email","col_break1","address","city","pin_code","state","section_break1","gstin","license_no","section_break2","invoice_header_note","invoice_footer_note"],
+ "fields": [
+  {"fieldname": "garage_name", "fieldtype": "Data", "label": "Garage Name", "reqd": 1},
+  {"fieldname": "owner_name", "fieldtype": "Data", "label": "Owner Name", "reqd": 1},
+  {"fieldname": "phone", "fieldtype": "Data", "label": "Phone Number"},
+  {"fieldname": "email", "fieldtype": "Data", "label": "Email", "options": "Email"},
+  {"fieldname": "col_break1", "fieldtype": "Column Break"},
+  {"fieldname": "address", "fieldtype": "Data", "label": "Shop Address"},
+  {"fieldname": "city", "fieldtype": "Data", "label": "City"},
+  {"fieldname": "pin_code", "fieldtype": "Data", "label": "PIN Code"},
+  {"fieldname": "state", "fieldtype": "Data", "label": "State"},
+  {"fieldname": "section_break1", "fieldtype": "Section Break", "label": "Legal Details"},
+  {"fieldname": "gstin", "fieldtype": "Data", "label": "GSTIN"},
+  {"fieldname": "license_no", "fieldtype": "Data", "label": "Shop License No."},
+  {"fieldname": "section_break2", "fieldtype": "Section Break", "label": "Invoice Settings"},
+  {"fieldname": "invoice_header_note", "fieldtype": "Small Text", "label": "Invoice Header Note"},
+  {"fieldname": "invoice_footer_note", "fieldtype": "Small Text", "label": "Invoice Footer Note"}
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-06-26 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bike Garage",
+ "name": "BG Garage Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "delete": 0, "read": 1, "role": "System Manager", "write": 1}
+ ]
+}

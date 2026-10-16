@@ -1,0 +1,40 @@
+{
+ "actions": [],
+ "autoname": "field:part_name",
+ "creation": "2026-06-26 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["part_name","category","brand","col_break1","purchase_price","selling_price","gst_rate","section_break1","stock_qty","min_stock_qty","unit","section_break2","description","garage","erpnext_item"],
+ "fields": [
+  {"fieldname": "part_name", "fieldtype": "Data", "label": "Part Name", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "category", "fieldtype": "Select", "label": "Category", "options": "\nLubricant\nBrakes\nFilter\nIgnition\nDrive\nElectrical\nBody\nSuspension\nControls\nOther", "in_list_view": 1},
+  {"fieldname": "brand", "fieldtype": "Data", "label": "Brand"},
+  {"fieldname": "col_break1", "fieldtype": "Column Break"},
+  {"fieldname": "purchase_price", "fieldtype": "Currency", "label": "Purchase Price"},
+  {"fieldname": "selling_price", "fieldtype": "Currency", "label": "Selling Price", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "gst_rate", "fieldtype": "Select", "label": "GST Rate (%)", "options": "0\n5\n12\n18\n28", "default": "18"},
+  {"fieldname": "section_break1", "fieldtype": "Section Break", "label": "Stock"},
+    {"fieldname": "stock_qty", "fieldtype": "Float", "label": "Current Stock", "default": "0", "in_list_view": 1, "read_only": 1},
+  {"fieldname": "min_stock_qty", "fieldtype": "Float", "label": "Min Stock (Reorder Level)", "default": "5"},
+  {"fieldname": "unit", "fieldtype": "Select", "label": "Unit", "options": "Pcs\nLitre\nSet\nPair\nKg\nMetre", "default": "Pcs"},
+  {"fieldname": "section_break2", "fieldtype": "Section Break", "label": "Details"},
+  {"fieldname": "description", "fieldtype": "Small Text", "label": "Description"},
+  {"fieldname": "garage", "fieldtype": "Link", "label": "Garage", "options": "BG Garage"},
+  {"fieldname": "erpnext_item", "fieldtype": "Link", "label": "ERPNext Item Mapping", "options": "Item", "hidden": 1}
+ ],
+ "links": [],
+ "modified": "2026-06-26 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bike Garage",
+ "name": "BG Spare Part",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "delete": 1, "read": 1, "report": 1, "role": "System Manager", "write": 1},
+  {"create": 1, "delete": 1, "read": 1, "report": 1, "role": "Platform Super Admin", "write": 1},
+  {"create": 1, "read": 1, "role": "All", "write": 1}
+ ],
+ "search_fields": "category,brand",
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
