@@ -4,6 +4,7 @@ app_publisher = "nandkishor48"
 app_description = "Bike Garage and Spare Parts Management System"
 app_email = "utkrishiagriflow@gmail.com"
 app_license = "mit"
+app_logo_url = "/assets/bike_garage/images/bike-garage-logo-transparent.png"
 
 
 # Create the platform role definition during a future migration. This never
@@ -13,8 +14,8 @@ after_install = "bike_garage.install.after_install"
 get_website_user_home_page = "bike_garage.website.get_home_page"
 website_path_resolver = "bike_garage.website.resolve_website_path"
 app_include_css = ["/assets/bike_garage/css/garage_ui.css"]
-web_include_css = "/assets/bike_garage/css/garage_ui.css"
-web_include_js = ["/assets/bike_garage/js/garage_login.js"]
+web_include_css = "/assets/bike_garage/css/garage_ui.css?v=20261018-1900"
+web_include_js = ["/assets/bike_garage/js/garage_login.js?v=20261018-1900"]
 
 # Apps
 # ------------------
@@ -347,4 +348,3 @@ doc_events = {
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

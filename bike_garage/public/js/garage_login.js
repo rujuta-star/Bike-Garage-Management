@@ -121,7 +121,7 @@
 	if (loginCard && !loginCard.querySelector(".bg-login-brand")) {
 		const brand = document.createElement("p");
 		brand.className = "bg-login-brand";
-		brand.textContent = "Bike Garage · Workshop management";
+		brand.innerHTML = '<img class="bg-login-logo" src="/assets/bike_garage/images/bike-garage-logo-transparent.png" alt=""><span>Bike Garage Management</span>';
 		loginCard.insertBefore(brand, loginCard.firstChild);
 	}
 	for (const link of loginPage.querySelectorAll('a[href="#signup"]')) {
@@ -133,5 +133,11 @@
 		register.className = "bg-login-register-link";
 		register.innerHTML = 'New to Bike Garage? <a href="/#registration-title">Request garage access</a>';
 		loginCard?.append(register);
+	}
+	if (loginCard && !loginPage.querySelector(".bg-login-home-link")) {
+		const home = document.createElement("p");
+		home.className = "bg-login-home-link";
+		home.innerHTML = '<a href="/">← Back to Home</a>';
+		loginCard.append(home);
 	}
 })();

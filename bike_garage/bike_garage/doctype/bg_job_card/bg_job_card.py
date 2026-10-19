@@ -1,11 +1,19 @@
 import frappe
 from frappe.model.document import Document
+from frappe.utils import flt
+
+from bike_garage import payments
 from bike_garage.numeric import validate_number
+
 
 class BGJobCard(Document):
     def validate(self):
         validate_number(self.labour_charges, "Labour charges", allow_empty=True, minimum=0)
         validate_number(self.amount_paid, "Amount paid", allow_empty=True, minimum=0)
+        previous = self.get_doc_before_save() if hasattr(self, "get_doc_before_save") else None
+        previous_paid = previous.amount_paid if previous else 0
+        if flt(self.amount_paid) != flt(previous_paid):
+            payments.require_payment_role(self.garage)
 
     def before_save(self):
         self.calculate_totals()

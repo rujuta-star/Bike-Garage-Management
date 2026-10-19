@@ -7,6 +7,12 @@ const vm = require("node:vm");
 const source = fs.readFileSync(path.join(__dirname, "garage_login.js"), "utf8");
 const homepage = fs.readFileSync(path.join(__dirname, "../../www/index.html"), "utf8");
 const landingCss = fs.readFileSync(path.join(__dirname, "../css/landing.css"), "utf8");
+const loginCss = fs.readFileSync(path.join(__dirname, "../css/garage_ui.css"), "utf8");
+const publicInfoCss = fs.readFileSync(path.join(__dirname, "../css/public_info.css"), "utf8");
+const publicInfoJs = fs.readFileSync(path.join(__dirname, "public_info.js"), "utf8");
+const publicInfoHeader = fs.readFileSync(path.join(__dirname, "../../templates/includes/public_info_header.html"), "utf8");
+const publicInfoFooter = fs.readFileSync(path.join(__dirname, "../../templates/includes/public_info_footer.html"), "utf8");
+const hooks = fs.readFileSync(path.join(__dirname, "../../hooks.py"), "utf8");
 
 function setupLoginPage({redirectTo = "", dashboardRoute = null, userType = "Website User", path = "/login"} = {}) {
 	const documentListeners = {};
@@ -58,6 +64,13 @@ test("the Frappe homepage keeps Lovable design assets and the existing Request A
 	assert.match(homepage, /href="\{\{ dashboard_route \}\}"/);
 	assert.match(homepage, /href="\/me"/);
 	assert.match(homepage, /href="#registration-title">Request Access/);
+	assert.match(homepage, /landing\.css\?v=20261018-2108/);
+	assert.match(homepage, /images\/bike-garage-logo-transparent\.png/);
+	assert.match(publicInfoHeader, /images\/bike-garage-logo-transparent\.png/);
+	assert.match(publicInfoHeader, /id="langSel"/);
+	assert.match(publicInfoFooter, /images\/bike-garage-logo-transparent\.png/);
+	assert.ok(fs.existsSync(path.join(__dirname, "../images/bike-garage-logo-transparent.png")));
+	assert.match(hooks, /app_logo_url = "\/assets\/bike_garage\/images\/bike-garage-logo-transparent\.png"/);
 	assert.match(homepage, /lovable-v3-hero-bg\.mp4/);
 	assert.match(homepage, /lovable-v3-workshop\.jpg/);
 	assert.doesNotMatch(homepage, /href="\/(?:app|request-access)"/);
@@ -71,6 +84,10 @@ test("the Frappe homepage keeps Lovable design assets and the existing Request A
 	assert.match(registration[1], /required/);
 	assert.match(homepage, /X-Frappe-CSRF-Token/);
 	assert.match(homepage, /bike_garage\.bike_garage\.api\.onboarding\.submit_garage_registration/);
+	assert.match(hooks, /garage_login\.js\?v=20261018-1900/);
+	for (const href of ["/contact", "/privacy-policy", "/terms-of-service", "/help"]) {
+		assert.match(homepage, new RegExp(`href="${href}"`));
+	}
 	assert.match(homepage, /heroVideo\.play\(\)/);
 	assert.match(homepage, /document\.addEventListener\("visibilitychange"/);
 	assert.doesNotMatch(homepage, /heroVideo\.pause\(\)|prefers-reduced-motion: reduce/);
@@ -78,6 +95,80 @@ test("the Frappe homepage keeps Lovable design assets and the existing Request A
 	assert.match(landingCss, /\.bg-lovable-landing\[data-theme=dark\] h1,[\s\S]*?color: var\(--text\);/);
 	assert.match(landingCss, /\.bg-lovable-landing\[data-theme=dark\] \.preview \.section-head h2/);
 	assert.match(landingCss, /\.bg-lovable-landing \.preview \.section-head h2,[\s\S]*?color: #fff;/);
+	assert.match(landingCss, /\.bg-lovable-landing \.icon\s*\{[^}]*color:\s*var\(--red\);[^}]*color-mix/s);
+	assert.match(landingCss, /\.bg-lovable-landing \.benefit-list \.check\s*\{[^}]*color:\s*var\(--green\);[^}]*color-mix/s);
+	assert.match(landingCss, /\.bg-lovable-landing\[data-theme=dark\] \.brand-mark\{background:#fff\}/);
+	assert.match(landingCss, /\.bg-lovable-landing \.request-access-card input, \.bg-lovable-landing \.request-access-card textarea \{[^}]*color:\s*var\(--navy\);[^}]*background:\s*#fff;/s);
+	assert.match(loginCss, /bg-login-home-link/);
+	assert.match(publicInfoCss, /\.bg-lovable-landing \.info-content/);
+});
+
+test("the login page receives a route-relative Back to Home link", () => {
+	const card = {
+		children: [],
+		querySelector(selector) {
+			return this.children.find((element) => `.${element.className}` === selector) || null;
+		},
+		insertBefore(element) { this.children.unshift(element); },
+		append(element) { this.children.push(element); },
+	};
+	const loginPage = {
+		querySelector(selector) {
+			if (selector === ".login-content.page-card") return card;
+			if (selector === ".bg-login-home-link") return card.querySelector(selector);
+			return null;
+		},
+		querySelectorAll() { return []; },
+	};
+	const document = {
+		readyState: "complete",
+		addEventListener() {},
+		querySelector(selector) { return selector === ".for-login" ? loginPage : null; },
+		querySelectorAll() { return []; },
+		createElement() { return {className: "", innerHTML: ""}; },
+	};
+
+	vm.runInNewContext(source, {document, window: {location: {pathname: "/login"}}});
+
+	const homeLink = card.children.find((element) => element.className === "bg-login-home-link");
+	assert.ok(homeLink);
+	assert.equal(homeLink.innerHTML, '<a href="/">← Back to Home</a>');
+	const brand = card.children.find((element) => element.className === "bg-login-brand");
+	assert.ok(brand);
+	assert.match(brand.innerHTML, /bike-garage-logo-transparent\.png/);
+	assert.match(brand.innerHTML, /Bike Garage Management/);
+});
+
+test("public information routes share navigation, theme assets, and homepage links", () => {
+	const pages = [
+		["contact.html", "Contact Us"],
+		["privacy-policy.html", "Privacy Policy"],
+		["terms-of-service.html", "Terms of Service"],
+		["help.html", "Help & Support"],
+	];
+	const includes = path.resolve(__dirname, "../../templates/includes");
+	for (const [filename, title] of pages) {
+		const page = fs.readFileSync(path.resolve(__dirname, `../../www/${filename}`), "utf8");
+		assert.match(page, new RegExp(`\\{% block title %\\}${title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+		assert.match(page, /templates\/includes\/public_info_header\.html/);
+		assert.match(page, /templates\/includes\/public_info_footer\.html/);
+		assert.match(page, /href="\/">← Back to Home<\/a>/);
+		assert.match(page, /public_info\.js/);
+	}
+	const footer = fs.readFileSync(path.join(includes, "public_info_footer.html"), "utf8");
+	for (const href of ["/contact", "/privacy-policy", "/terms-of-service", "/help"]) {
+		assert.match(footer, new RegExp(`href="${href}"`));
+	}
+	const contact = fs.readFileSync(path.resolve(__dirname, "../../www/contact.html"), "utf8");
+	assert.match(contact, /mailto:nand\.jadhao@gmail\.com/);
+	assert.match(contact, /mailto:rujutadeshmukh1010@gmail\.com/);
+	assert.match(contact, /tel:\+917030738161/);
+	assert.match(contact, /https:\/\/wa\.me\/917030738161/);
+	assert.doesNotMatch(contact, /Physical address/);
+	assert.match(publicInfoJs, /bg-lang/);
+	assert.match(publicInfoJs, /"Terms of Service": \["सेवा अटी", "सेवा की शर्तें"\]/);
+	assert.match(publicInfoJs, /languageSelect\?\.addEventListener\("change"/);
+	assert.match(publicInfoJs, /page\.setAttribute\("lang", language\)/);
 });
 
 test("verified garage membership overrides Frappe's stale homepage after Website User login", async () => {

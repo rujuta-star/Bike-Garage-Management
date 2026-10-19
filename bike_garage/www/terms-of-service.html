@@ -1,0 +1,43 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Terms of Service | Bike Garage{% endblock %}
+{% block navbar %}{% endblock %}
+
+{% block page_content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/bike_garage/css/landing.css?v=20261018-2108">
+<link rel="stylesheet" href="/assets/bike_garage/css/public_info.css?v=20261018-1700">
+<div class="bg-lovable-landing info-page" data-theme="light" lang="en">
+  {% include "templates/includes/public_info_header.html" %}
+  <main class="info-main" id="main">
+    <div class="wrap">
+      <a class="info-back-link" href="/">← Back to Home</a>
+      <article class="info-content">
+        <span class="kicker">Using Bike Garage</span>
+        <h1>Terms of Service</h1>
+        <p>These terms explain the expected use of Bike Garage Management as provided by the operator of the Frappe site. They are service information, not legal advice; the site operator should review them for the specific service they offer.</p>
+
+        <h2>Account registration and approval</h2>
+        <p>A garage owner may request access through the public form. Submitting a request creates a pending application, not a user account or a promise of access. An administrator reviews the request. If it is approved and outgoing email is configured, the owner may receive a separate, time-limited registration link to create the account. Access to a garage workspace depends on an active account and garage membership.</p>
+
+        <h2>Account responsibilities</h2>
+        <p>Users are responsible for providing accurate access-request and account information, keeping their sign-in credentials private, and using their own account. Contact the garage administrator if access appears incorrect or should be changed. Do not share another person's credentials.</p>
+
+        <h2>Acceptable use</h2>
+        <p>Use the application for legitimate garage-management work and only with the records you are authorized to access. Do not attempt to access another garage's information, bypass permissions, disrupt the service, or submit information you are not authorized to provide.</p>
+
+        <h2>Service availability</h2>
+        <p>The application is provided through the Frappe site operated for your deployment. The site may be unavailable, changed, or discontinued by its operator. The app does not promise continuous availability or that every feature will always be error-free.</p>
+
+        <h2>Records and limitations</h2>
+        <p>Bike Garage provides tools for recording and reviewing business information. Users remain responsible for checking their records and decisions and for meeting any requirements that apply to their business. Reports and screens should not be treated as professional, tax, accounting, or legal advice.</p>
+        <p>For account help or site-specific service questions, see <a href="/help">Help / Support</a> or <a href="/contact">Contact Us</a>.</p>
+      </article>
+    </div>
+  </main>
+  {% include "templates/includes/public_info_footer.html" %}
+</div>
+<script src="/assets/bike_garage/js/public_info.js?v=20261018-2107"></script>
+{% endblock %}

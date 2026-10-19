@@ -12,10 +12,38 @@ from bike_garage.bike_garage.doctype.bg_sale.bg_sale import BGSale
 from bike_garage.bike_garage.doctype.bg_sale_item.bg_sale_item import BGSaleItem
 from bike_garage.bike_garage.doctype.bg_spare_part.bg_spare_part import BGSparePart
 from bike_garage.bike_garage.doctype.bg_subscription_plan.bg_subscription_plan import BGSubscriptionPlan
-from bike_garage import stock
+from bike_garage import payments, stock
 
 
 class TestNumericValidation(unittest.TestCase):
+	def test_job_card_payment_amount_changes_require_financial_role(self):
+		previous = SimpleNamespace(amount_paid=10)
+		doc = SimpleNamespace(
+			labour_charges=0, amount_paid=10, garage="GARAGE-1",
+			get_doc_before_save=lambda: previous,
+		)
+
+		with patch.object(payments, "require_payment_role") as require_payment_role:
+			BGJobCard.validate(doc)
+		require_payment_role.assert_not_called()
+
+		doc.amount_paid = 11
+		with patch.object(
+			payments, "require_payment_role", side_effect=frappe.PermissionError
+		) as require_payment_role:
+			with self.assertRaises(frappe.PermissionError):
+				BGJobCard.validate(doc)
+		require_payment_role.assert_called_once_with("GARAGE-1")
+
+		with patch.object(payments, "require_payment_role") as require_payment_role:
+			BGJobCard.validate(
+				SimpleNamespace(
+					labour_charges=0, amount_paid=1, garage="GARAGE-1",
+					get_doc_before_save=lambda: None,
+				)
+			)
+		require_payment_role.assert_called_once_with("GARAGE-1")
+
 	def test_job_card_part_quantity_rejects_non_finite_and_non_positive_values(self):
 		for quantity in (float("nan"), float("inf"), float("-inf"), 0, -1):
 			with self.subTest(quantity=quantity):

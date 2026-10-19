@@ -1,0 +1,37 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Contact Us | Bike Garage{% endblock %}
+{% block navbar %}{% endblock %}
+
+{% block page_content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/bike_garage/css/landing.css?v=20261018-2108">
+<link rel="stylesheet" href="/assets/bike_garage/css/public_info.css?v=20261018-1700">
+<div class="bg-lovable-landing info-page" data-theme="light" lang="en">
+  {% include "templates/includes/public_info_header.html" %}
+  <main class="info-main" id="main">
+    <div class="wrap">
+      <a class="info-back-link" href="/">← Back to Home</a>
+      <article class="info-content">
+        <span class="kicker">We're here to help</span>
+        <h1>Contact Us</h1>
+        <p>For help with Bike Garage, use the support route that applies to your request below.</p>
+
+        <h2>Support contact</h2>
+        <p><strong>Email:</strong> <a href="mailto:nand.jadhao@gmail.com">nand.jadhao@gmail.com</a> and <a href="mailto:rujutadeshmukh1010@gmail.com">rujutadeshmukh1010@gmail.com</a>.</p>
+        <p><strong>Phone:</strong> <a href="tel:+917030738161">7030738161</a>. <strong>WhatsApp:</strong> <a href="https://wa.me/917030738161">Message us on WhatsApp</a>.</p>
+        <p>To request support, email either address or contact us on WhatsApp with your garage name and a description of the issue. Do not include passwords, login links, or authentication codes. If you already use a garage workspace, you can also contact your garage administrator for account-access help.</p>
+
+        <h2>Requesting garage access</h2>
+        <p>If you are applying for a new garage workspace, use the <a href="/#registration-title">Request Access form</a>. That form is for access applications, not general support requests.</p>
+        <h2>Login assistance</h2>
+        <p>Use the <a href="/login">Sign In page</a> to log in or follow its password-recovery link.</p>
+      </article>
+    </div>
+  </main>
+  {% include "templates/includes/public_info_footer.html" %}
+</div>
+<script src="/assets/bike_garage/js/public_info.js?v=20261018-2107"></script>
+{% endblock %}

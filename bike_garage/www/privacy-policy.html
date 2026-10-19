@@ -1,0 +1,47 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Privacy Policy | Bike Garage{% endblock %}
+{% block navbar %}{% endblock %}
+
+{% block page_content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/bike_garage/css/landing.css?v=20261018-2108">
+<link rel="stylesheet" href="/assets/bike_garage/css/public_info.css?v=20261018-1700">
+<div class="bg-lovable-landing info-page" data-theme="light" lang="en">
+  {% include "templates/includes/public_info_header.html" %}
+  <main class="info-main" id="main">
+    <div class="wrap">
+      <a class="info-back-link" href="/">← Back to Home</a>
+      <article class="info-content">
+        <span class="kicker">Your information</span>
+        <h1>Privacy Policy</h1>
+        <p>This page describes the information Bike Garage Management handles through the features currently implemented in this application. Hosting, retention, and contact details depend on the operator of the Frappe site running the app.</p>
+
+        <h2>Information collected</h2>
+        <p>The public garage-access form asks for a garage name, owner name, email address, and phone number. Address, city, state, and PIN code are optional fields. Submitting the form saves a pending garage application; it does not create a login account or membership. The form checks whether the email already belongs to a user or garage application and avoids creating a duplicate.</p>
+        <p>After approval, the owner can complete registration using the separate registration link. The application then creates the account and garage membership. Login and password recovery use Frappe's native account flow.</p>
+        <p>When a garage uses the workspace, its users may enter customer contact details, motorcycle and registration information, job-card and service records, spare-parts and stock records, sales and payment information, expenses, and related business records. The app also stores a signed-in user's language preference in their Frappe user record.</p>
+
+        <h2>How information is used</h2>
+        <p>Access-request details are used for application review and, after approval, for owner registration. Workspace records support the garage-management features and are displayed to users according to their garage membership and application permissions. Platform administrators use application details to review and administer garage access.</p>
+
+        <h2>Storage and protection</h2>
+        <p>Application and workspace records are stored with the Frappe site database running this app. The application checks account authorization and garage-scoped access in its server-side routes and APIs. Frappe provides the login, session, password-recovery, and CSRF mechanisms used by the site. These controls do not guarantee that information is immune to every security risk.</p>
+        <p>This app does not define a general automatic deletion schedule. Database hosting, backups, retention, and infrastructure safeguards are managed by the operator of the Frappe site; this application does not specify those arrangements.</p>
+
+        <h2>Sharing and external requests</h2>
+        <p>An initial access request does not send an email. After an administrator approves an application, the app can queue an email containing a registration link if outgoing email is configured on the Frappe site. Email delivery is not guaranteed by the application.</p>
+        <p>The public pages load web fonts from Google Fonts. When those fonts are requested, the browser connects to Google's font domains and may share standard connection information with that service. No analytics or advertising integration is configured by this app's public homepage.</p>
+        <p>Garage records are available to authorized users for their garage and to administrators as permitted by the app and site configuration. The operator should publish any additional hosting-provider or service-provider disclosures that apply to their deployment.</p>
+
+        <h2>Questions or data requests</h2>
+        <p>For a privacy question or data request, contact your garage administrator or use the application contact email listed on the <a href="/contact">Contact Us page</a>. A separate privacy-request workflow is not configured in the application.</p>
+      </article>
+    </div>
+  </main>
+  {% include "templates/includes/public_info_footer.html" %}
+</div>
+<script src="/assets/bike_garage/js/public_info.js?v=20261018-2107"></script>
+{% endblock %}

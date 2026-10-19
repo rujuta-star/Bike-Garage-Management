@@ -338,9 +338,12 @@ body:has(.for-login) .login-content.page-card {
 body:has(.for-login) .page-card-head { display:flex; align-items:center; gap:14px; }
 body:has(.for-login) .page-card-head img.app-logo { width:auto; max-width:64px; max-height:48px; object-fit:contain; }
 body:has(.for-login) .page-card-head h4 { color: var(--bg-ink); font-size:clamp(23px,4vw,29px); letter-spacing:-.03em; }
-body:has(.for-login) .bg-login-brand { margin:0 0 18px; color:var(--bg-accent-dark); font-size:12px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; }
+body:has(.for-login) .bg-login-brand { display:flex; align-items:center; gap:12px; margin:0 0 18px; color:var(--bg-accent-dark); font-size:14px; font-weight:800; letter-spacing:.02em; }
+body:has(.for-login) .bg-login-logo { width:48px; height:44px; padding:2px; border:1px solid #dce4eb; border-radius:9px; background:#fff; object-fit:contain; }
 body:has(.for-login) .bg-login-register-link { margin:18px 0 0; color:#526579; text-align:center; }
 body:has(.for-login) .bg-login-register-link a { font-weight:700; }
+body:has(.for-login) .bg-login-home-link { margin:16px 0 0; text-align:center; }
+body:has(.for-login) .bg-login-home-link a { font-weight:700; }
 body:has(.for-login) .page-card-head p,
 body:has(.for-login) .form-label { color: #526579; }
 body:has(.for-login) .form-label { font-weight:650; }

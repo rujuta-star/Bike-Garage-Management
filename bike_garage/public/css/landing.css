@@ -654,7 +654,7 @@
 @media(min-width:900px){.bg-lovable-landing .tools{margin-left:14px;margin-right:0}}.bg-lovable-landing .lang{appearance:none;-webkit-appearance:none;font:600 14px/1 Mukta,sans-serif;color:var(--ink);background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23888' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 10px center;border:1px solid var(--border);border-radius:8px;height:40px;padding:0 28px 0 12px;cursor:pointer;transition:border-color .2s}.bg-lovable-landing .lang:hover{border-color:var(--red)}.bg-lovable-landing .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;overflow:hidden;position:relative;transition:transform .4s cubic-bezier(.3,1.6,.5,1),border-color .2s}.bg-lovable-landing .theme-btn:hover{transform:rotate(25deg);border-color:var(--red)}.bg-lovable-landing .theme-btn svg{width:18px;height:18px;position:absolute;transition:transform .45s cubic-bezier(.3,1.4,.5,1),opacity .3s}.bg-lovable-landing .theme-btn .moon{transform:translateY(30px);opacity:0}.bg-lovable-landing[data-theme=dark] .theme-btn .sun{transform:translateY(-30px);opacity:0}.bg-lovable-landing[data-theme=dark] .theme-btn .moon{transform:none;opacity:1}.bg-lovable-landing,.bg-lovable-landing .nav,.bg-lovable-landing .feature,.bg-lovable-landing .step,.bg-lovable-landing .benefit-list li,.bg-lovable-landing .panel,.bg-lovable-landing .kpi,.bg-lovable-landing footer,.bg-lovable-landing .how{transition:background-color .4s,color .4s,border-color .4s,transform .25s,box-shadow .25s}.bg-lovable-landing .lang-fade main,.bg-lovable-landing .lang-fade header{animation:lfade .45s ease}
 @keyframes lfade{from{opacity:.25;filter:blur(3px)}}
 /* Dark theme */
-.bg-lovable-landing[data-theme=dark]{--bg:#070C16;--surface:#0F1726;--card:#0F1726;--border:#1F2B40;--line:#18233A;--text:#E9EEF6;--muted:#93A3BA;--ink:#E9EEF6;--navy-soft:#1A2740;--nav-bg:rgba(7,12,22,.82);--green-soft:rgba(47,143,91,.18);--green:#4CC183;--amber-soft:rgba(183,121,31,.2);--amber:#E5A94A;--red:#E04E5E;--shadow:0 8px 30px -10px rgba(0,0,0,.7);--shadow-lg:0 30px 60px -20px rgba(0,0,0,.85);color-scheme:dark}.bg-lovable-landing[data-theme=dark] .eyebrow,.bg-lovable-landing[data-theme=dark] .btn-outline,.bg-lovable-landing[data-theme=dark] .nav-links a:hover,.bg-lovable-landing[data-theme=dark] .menu-btn,.bg-lovable-landing[data-theme=dark] .app-side div.on,.bg-lovable-landing[data-theme=dark] .pill.navy{color:var(--ink)}.bg-lovable-landing[data-theme=dark] .btn-outline:hover{border-color:var(--red)}.bg-lovable-landing[data-theme=dark] .preview{background:#03070F}.bg-lovable-landing[data-theme=dark] .app{border-color:#1F2B40}.bg-lovable-landing[data-theme=dark] .progress span,.bg-lovable-landing[data-theme=dark] .bar-chart b:not(.e),.bg-lovable-landing[data-theme=dark] .legend span:not(.e)::before{background:#6F8FC0}.bg-lovable-landing[data-theme=dark] .brand-mark{background:var(--red)}.bg-lovable-landing[data-theme=dark] .pill.red{background:rgba(224,78,94,.18);color:#FF8B98}.bg-lovable-landing[data-theme=dark] .approval{border-color:rgba(229,169,74,.35);color:#F3D29A}.bg-lovable-landing[data-theme=dark] .app-bar .tag{border-color:#2A3852}.bg-lovable-landing[data-theme=dark] .cta-box{background:linear-gradient(120deg,#0F1A2E,#1C2233,#2A1018);background-size:200% 200%}.bg-lovable-landing[data-theme=dark] .hero::before{background:radial-gradient(900px 500px at 80% 0%,rgba(224,78,94,.14),transparent 70%)}.bg-lovable-landing[data-theme=dark] body::before{opacity:.07}
+.bg-lovable-landing[data-theme=dark]{--bg:#070C16;--surface:#0F1726;--card:#0F1726;--border:#1F2B40;--line:#18233A;--text:#E9EEF6;--muted:#93A3BA;--ink:#E9EEF6;--navy-soft:#1A2740;--nav-bg:rgba(7,12,22,.82);--green-soft:rgba(47,143,91,.18);--green:#4CC183;--amber-soft:rgba(183,121,31,.2);--amber:#E5A94A;--red:#E04E5E;--shadow:0 8px 30px -10px rgba(0,0,0,.7);--shadow-lg:0 30px 60px -20px rgba(0,0,0,.85);color-scheme:dark}.bg-lovable-landing[data-theme=dark] .eyebrow,.bg-lovable-landing[data-theme=dark] .btn-outline,.bg-lovable-landing[data-theme=dark] .nav-links a:hover,.bg-lovable-landing[data-theme=dark] .menu-btn,.bg-lovable-landing[data-theme=dark] .app-side div.on,.bg-lovable-landing[data-theme=dark] .pill.navy{color:var(--ink)}.bg-lovable-landing[data-theme=dark] .btn-outline:hover{border-color:var(--red)}.bg-lovable-landing[data-theme=dark] .preview{background:#03070F}.bg-lovable-landing[data-theme=dark] .app{border-color:#1F2B40}.bg-lovable-landing[data-theme=dark] .progress span,.bg-lovable-landing[data-theme=dark] .bar-chart b:not(.e),.bg-lovable-landing[data-theme=dark] .legend span:not(.e)::before{background:#6F8FC0}.bg-lovable-landing[data-theme=dark] .brand-mark{background:#fff}.bg-lovable-landing[data-theme=dark] .pill.red{background:rgba(224,78,94,.18);color:#FF8B98}.bg-lovable-landing[data-theme=dark] .approval{border-color:rgba(229,169,74,.35);color:#F3D29A}.bg-lovable-landing[data-theme=dark] .app-bar .tag{border-color:#2A3852}.bg-lovable-landing[data-theme=dark] .cta-box{background:linear-gradient(120deg,#0F1A2E,#1C2233,#2A1018);background-size:200% 200%}.bg-lovable-landing[data-theme=dark] .hero::before{background:radial-gradient(900px 500px at 80% 0%,rgba(224,78,94,.14),transparent 70%)}.bg-lovable-landing[data-theme=dark] body::before{opacity:.07}
 @media(prefers-reduced-motion:reduce){.bg-lovable-landing::before{animation:none}}
 
 @media(prefers-reduced-motion:reduce){.bg-lovable-landing{scroll-behavior:auto}}.bg-lovable-landing,.bg-lovable-landing{overflow-x:clip}.bg-lovable-landing .ticker{overflow:hidden;max-width:100%}
@@ -674,7 +674,7 @@
 .bg-lovable-landing .request-access-card { padding: 26px; border: 1px solid rgb(255 255 255 / 35%); border-radius: 12px; color: var(--text); background: #fff; box-shadow: 0 20px 48px rgb(0 0 0 / 18%); }
 .bg-lovable-landing .request-access-card form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
 .bg-lovable-landing .request-access-card label { display: flex; min-width: 0; flex-direction: column; gap: 5px; color: var(--navy); font-size: 13px; font-weight: 700; }
-.bg-lovable-landing .request-access-card input, .bg-lovable-landing .request-access-card textarea { width: 100%; min-height: 44px; padding: 10px 11px; border: 1px solid #cfd6e1; border-radius: 7px; color: var(--text); background: #fff; font: inherit; font-size: 14px; }
+.bg-lovable-landing .request-access-card input, .bg-lovable-landing .request-access-card textarea { width: 100%; min-height: 44px; padding: 10px 11px; border: 1px solid #cfd6e1; border-radius: 7px; color: var(--navy); background: #fff; font: inherit; font-size: 14px; }
 .bg-lovable-landing .request-access-card textarea { resize: vertical; }
 .bg-lovable-landing .request-access-card input:focus, .bg-lovable-landing .request-access-card textarea:focus { border-color: var(--navy); }
 .bg-lovable-landing .request-access-card .field-wide { grid-column: 1 / -1; }
@@ -860,12 +860,6 @@ body:has(.bg-lovable-landing) {
   }
 }
 
-@media (max-width: 340px) {
-  .bg-lovable-landing .tools .lang {
-    display: none;
-  }
-}
-
 @keyframes bg-landing-rise {
   from { opacity: 0; transform: translateY(22px); }
   to { opacity: 1; transform: none; }
@@ -918,6 +912,30 @@ body:has(.bg-lovable-landing) {
   transition-duration: .2s !important;
 }
 
+.bg-lovable-landing .brand-mark {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  overflow: hidden;
+  padding: 2px;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.bg-lovable-landing .brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 380px) {
+  .bg-lovable-landing .brand-mark {
+    width: 34px;
+    height: 34px;
+  }
+}
+
 .bg-lovable-landing .hero .btn-primary:hover {
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 14px 28px rgb(200 62 77 / 40%);
@@ -953,4 +971,21 @@ body:has(.bg-lovable-landing) {
 .bg-lovable-landing[data-theme=dark] .cta-box h2,
 .bg-lovable-landing[data-theme=dark] .request-access-intro h2 {
   color: #fff;
+}
+
+.bg-lovable-landing .icon {
+  color: var(--red);
+  background: color-mix(in srgb, var(--red) 10%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--red) 28%, var(--border));
+}
+
+.bg-lovable-landing .benefit-list .check {
+  color: var(--green);
+  background: color-mix(in srgb, var(--green) 18%, var(--card));
+}
+
+@media (min-width: 720px) {
+  .bg-lovable-landing .foot {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
 }

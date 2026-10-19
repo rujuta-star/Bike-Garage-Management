@@ -18,6 +18,12 @@ test("platform admin navigation targets implemented dashboard sections", () => {
 	assert.match(template, /\{\{ user\|e \}\}/);
 });
 
+test("platform admin displays the supplied Bike Garage logo", () => {
+	assert.match(template, /class="platform-brand-mark"[^>]*>.*?images\/bike-garage-logo-transparent\.png/s);
+	assert.match(styles, /\.platform-brand-mark img\s*\{[^}]*object-fit:\s*contain;/s);
+	assert.ok(fs.existsSync(path.join(appRoot, "public/images/bike-garage-logo-transparent.png")));
+});
+
 test("platform summaries and status chart use authorized server counts", () => {
 	assert.match(template, /api\('get_platform_dashboard'\)/);
 	assert.match(template, /renderStatusReport\(data\.counts\)/);
@@ -67,8 +73,8 @@ test("dynamic garage and membership content is inserted as text", () => {
 
 test("public access requests prevent concurrent submission and report persistence separately from email", () => {
 	const landing = fs.readFileSync(path.join(appRoot, "www/index.html"), "utf8");
-	assert.match(landing, /if \(submitButton\.disabled\) return/);
-	assert.match(landing, /submitButton\.disabled = true/);
+	assert.match(landing, /if \(button\.disabled \|\| !form\.reportValidity\(\)\) return/);
+	assert.match(landing, /button\.disabled = true/);
 	assert.match(landing, /form\.removeAttribute\('aria-busy'\)/);
 	assert.match(onboarding, /saved as Pending review[\s\S]*?No email is sent at this stage/);
 });
